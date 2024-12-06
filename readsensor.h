@@ -26,12 +26,13 @@ public slots:
 private slots:
     void readData(); // connect to timeout of timer
     void networkReplyFinished();
+    void handleReply(QNetworkReply* reply);
 
 private:
     QTimer *m_timer;
     QNetworkAccessManager *m_manager;
-    QNetworkRequest m_request;
-    QNetworkReply* m_reply;
+    // QNetworkRequest m_request;
+    // QNetworkReply* m_reply;
 };
 
 #endif // READSENSOR_H

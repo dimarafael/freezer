@@ -12,28 +12,29 @@ public:
     QString productName() const;
     void setProductName(const QString &newProductName);
 
-    bool loaded() const;
-    void setLoaded(bool newLoaded);
 
-    QTime currentTimer() const;
-    void setCurrentTimer(const QTime &newCurrentTimer);
-
-    QTime timerSetpointMin() const;
-    void setTimerSetpointMin(const QTime &newTimerSetpointMin);
-
-    QTime timerSetpointMax() const;
-    void setTimerSetpointMax(const QTime &newTimerSetpointMax);
+    int state() const;
+    void setState(int newState);
 
     float currentTemperature() const;
     void setCurrentTemperature(float newCurrentTemperature);
 
+    int minutesMin() const;
+    void setMinutesMin(int newMinutesMin);
+
+    int minutesMax() const;
+    void setMinutesMax(int newMinutesMax);
+
+    int minutesCurrent() const;
+    void setMinutesCurrent(int newMinutesCurrent);
+
 private:
     QString m_productName;
-    bool m_loaded;
-    QTime m_currentTimer;
-    QTime m_timerSetpointMin;
-    QTime m_timerSetpointMax;
+    int m_state; //0 empty, 1 cooling, 2 ready, 3 overcooled
     float m_currentTemperature;
+    int m_minutesMin;
+    int m_minutesMax;
+    int m_minutesCurrent;
 };
 
 #endif // PROCESSITEM_H

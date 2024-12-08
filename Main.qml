@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
+import com.kometa.ProcessModel
 
 Window {
     id: window
@@ -39,6 +40,17 @@ Window {
         anchors.fill: parent
         anchors.margins: window.defMargin
 
+        DropShadow {
+            anchors.fill: topMenu
+            source: topMenu
+            horizontalOffset: window.defMargin / 2
+            verticalOffset: window.defMargin / 2
+            radius: 3.0
+            samples: 17
+            color: window.shadowColor
+            opacity: 0.8
+        }
+
         Item {
             id: topMenu
             clip: true
@@ -54,6 +66,17 @@ Window {
                 radius: window.defMargin
             }
 
+            DropShadow {
+                anchors.fill: logo
+                source: logo
+                horizontalOffset: window.defMargin / 3
+                verticalOffset: window.defMargin / 3
+                radius: 3.0
+                samples: 17
+                color: window.shadowColor
+                opacity: 0.8
+            }
+
             Image {
                 id: logo
                 anchors{
@@ -65,18 +88,6 @@ Window {
                 fillMode: Image.PreserveAspectFit
 
                 source: "img/logo.png"
-            }
-
-
-            Rectangle{
-                id:lineVerticalGear
-                anchors{
-                    verticalCenter: parent.verticalCenter
-                    right: itemGear.left
-                }
-                height: parent.height * 0.85
-                width: Math.round(height * 0.01)
-                color: "white"
             }
 
             Item{
@@ -106,6 +117,16 @@ Window {
                     }
                 }
 
+                DropShadow {
+                    anchors.fill: imgGear
+                    source: imgGear
+                    horizontalOffset: window.defMargin / 3
+                    verticalOffset: window.defMargin / 3
+                    radius: 3.0
+                    samples: 17
+                    color: window.shadowColor
+                    opacity: 0.8
+                }
                 Image {
                     id: imgGear
                     anchors{
@@ -115,17 +136,33 @@ Window {
                     fillMode: Image.PreserveAspectFit
                     source: "img/gear.svg"
                 }
+
+
             }
         }
 
-        DropShadow {
-            anchors.fill: topMenu
-            source: topMenu
-            horizontalOffset: window.defMargin / 3
-            verticalOffset: window.defMargin / 3
-            radius: 8.0
-            samples: 17
-            color: window.shadowColor
+        GridView{
+            id: gridViev
+            anchors{
+                top: topMenu.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                margins: -( window.defMargin / 2)
+                topMargin: window.defMargin / 2
+            }
+            cellWidth: width / 9
+            cellHeight: height / 3
+            interactive: false
+            verticalLayoutDirection: GridView.TopToBottom
+
+            model: ProcessModel
+            delegate: ProcessItemDelegate {
+                width: gridViev.cellWidth
+                height: gridViev.cellHeight
+                defMargin: window.defMargin
+                shadowColor: window.shadowColor
+            }
         }
 
     } // Item root content

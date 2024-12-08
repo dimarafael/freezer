@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QThread>
 #include "readsensor.h"
+#include "processmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,12 +12,15 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    ProcessModel *processModel = new ProcessModel(&app);
+    qmlRegisterSingletonInstance("com.kometa.ProcessModel", 1, 1, "ProcessModel", processModel);
+
     ReadSensor *readSensor = new ReadSensor();
     QThread *threadReadSensor = new QThread();
     QObject::connect(threadReadSensor, &QThread::started, readSensor, &ReadSensor::run);
 
     readSensor->moveToThread(threadReadSensor);
-    threadReadSensor->start();
+    // threadReadSensor->start();
 
     QObject::connect(
         &engine,

@@ -2,11 +2,11 @@
 
 ProcessItem::ProcessItem(){
     m_productName = "";
-    m_loaded = false;
-    m_currentTimer = QTime::currentTime();
-    m_timerSetpointMin = QTime::currentTime();
-    m_timerSetpointMax = QTime::currentTime();
+    m_state = 0;
     m_currentTemperature = 0;
+    m_minutesMin = 0;
+    m_minutesMax = 0;
+    m_minutesCurrent = 0;
 }
 
 QString ProcessItem::productName() const
@@ -19,44 +19,14 @@ void ProcessItem::setProductName(const QString &newProductName)
     m_productName = newProductName;
 }
 
-bool ProcessItem::loaded() const
+int ProcessItem::state() const
 {
-    return m_loaded;
+    return m_state;
 }
 
-void ProcessItem::setLoaded(bool newLoaded)
+void ProcessItem::setState(int newState)
 {
-    m_loaded = newLoaded;
-}
-
-QTime ProcessItem::currentTimer() const
-{
-    return m_currentTimer;
-}
-
-void ProcessItem::setCurrentTimer(const QTime &newCurrentTimer)
-{
-    m_currentTimer = newCurrentTimer;
-}
-
-QTime ProcessItem::timerSetpointMin() const
-{
-    return m_timerSetpointMin;
-}
-
-void ProcessItem::setTimerSetpointMin(const QTime &newTimerSetpointMin)
-{
-    m_timerSetpointMin = newTimerSetpointMin;
-}
-
-QTime ProcessItem::timerSetpointMax() const
-{
-    return m_timerSetpointMax;
-}
-
-void ProcessItem::setTimerSetpointMax(const QTime &newTimerSetpointMax)
-{
-    m_timerSetpointMax = newTimerSetpointMax;
+    m_state = newState;
 }
 
 float ProcessItem::currentTemperature() const
@@ -68,3 +38,34 @@ void ProcessItem::setCurrentTemperature(float newCurrentTemperature)
 {
     m_currentTemperature = newCurrentTemperature;
 }
+
+int ProcessItem::minutesMin() const
+{
+    return m_minutesMin;
+}
+
+void ProcessItem::setMinutesMin(int newMinutesMin)
+{
+    m_minutesMin = newMinutesMin;
+}
+
+int ProcessItem::minutesMax() const
+{
+    return m_minutesMax;
+}
+
+void ProcessItem::setMinutesMax(int newMinutesMax)
+{
+    m_minutesMax = newMinutesMax;
+}
+
+int ProcessItem::minutesCurrent() const
+{
+    return m_minutesCurrent;
+}
+
+void ProcessItem::setMinutesCurrent(int newMinutesCurrent)
+{
+    m_minutesCurrent = newMinutesCurrent;
+}
+

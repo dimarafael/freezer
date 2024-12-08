@@ -11,11 +11,11 @@ class ProcessModel : public QAbstractListModel
 public:
     enum Role{
         ProductNameRole = Qt::UserRole + 1,
-        ProductLoadedRole = Qt::UserRole + 2,
-        CurrentTimerRole = Qt::UserRole + 3,
-        TimerSetpointMinRole = Qt::UserRole + 4,
-        TimerSetpointMaxRole = Qt::UserRole + 5,
-        CurrentTemperatureRole = Qt::UserRole + 6
+        StateRole = Qt::UserRole + 2,
+        TemperatureRole = Qt::UserRole + 3,
+        MinutesMinRole = Qt::UserRole + 4,
+        MinutesMaxRole = Qt::UserRole + 5,
+        MinutesCurrentRole = Qt::UserRole + 6
     };
     explicit ProcessModel(QObject *parent = nullptr);
 

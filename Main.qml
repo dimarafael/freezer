@@ -76,7 +76,6 @@ Window {
                 color: window.shadowColor
                 opacity: 0.8
             }
-
             Image {
                 id: logo
                 anchors{
@@ -88,6 +87,52 @@ Window {
                 fillMode: Image.PreserveAspectFit
 
                 source: "img/logo.png"
+            }
+
+            DropShadow {
+                anchors.fill: itemTemperature
+                source: itemTemperature
+                horizontalOffset: window.defMargin / 3
+                verticalOffset: window.defMargin / 3
+                radius: 3.0
+                samples: 17
+                color: window.shadowColor
+                opacity: 0.8
+            }
+            Item{
+                id: itemTemperature
+                anchors.fill: parent
+
+                Text{
+                    id: textTemperature
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: parent.height * 0.5
+                    color: "white"
+                    visible: ProcessModel.sensorStatus === 0
+                    text: ProcessModel.temperature.toFixed(1) + " °C"
+                }
+                Text{
+                    id: textOffline
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: parent.height * 0.5
+                    color: "red"
+                    visible: ProcessModel.sensorStatus === 1
+                    text: "Sensor offline"
+                }
+                Text{
+                    id: textConnectionError
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: parent.height * 0.5
+                    color: "red"
+                    visible: ProcessModel.sensorStatus === 2
+                    text: "Sensor not connected"
+                }
             }
 
             Item{
@@ -111,8 +156,8 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         window.showSettings = !window.showSettings
-                        // itemSettings.unlocked = false
-                        // itemSettings.hideAllPopUps()
+                        itemSettings.unlocked = false
+                        itemSettings.hideAllPopUps()
                         focus: true
                     }
                 }
@@ -162,6 +207,27 @@ Window {
                 height: gridViev.cellHeight
                 defMargin: window.defMargin
                 shadowColor: window.shadowColor
+            }
+        }
+
+
+        SettingsPanel {
+            id: itemSettings
+            width: parent.width
+            height: parent.height - topMenu.height
+            x: 0
+            y: window.showSettings ? topMenu.height + window.defMargin : window.height
+            defMargin: window.defMargin
+
+            Behavior on y{
+                NumberAnimation{
+                    duration: 150
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            onHidePanel: {
+                window.showSettings = false
+                itemSettings.unlocked = false
             }
         }
 

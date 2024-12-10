@@ -8,6 +8,8 @@
 class ProcessModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(float temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged FINAL)
+    Q_PROPERTY(int sensorStatus READ sensorStatus WRITE setSensorStatus NOTIFY sensorStatusChanged FINAL)
 public:
     enum Role{
         ProductNameRole = Qt::UserRole + 1,
@@ -24,8 +26,21 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
+    float temperature() const;
+    void setTemperature(float newTemperature);
+
+    int sensorStatus() const;
+    void setSensorStatus(int newSensorStatus);
+
+signals:
+    void temperatureChanged();
+
+    void sensorStatusChanged();
+
 private:
     QList<ProcessItem> m_processList;
+    float m_temperature;
+    int m_sensorStatus; // 0 - o, 1 - module offline, 2 - sensor not connected
 };
 
 #endif // PROCESSMODEL_H

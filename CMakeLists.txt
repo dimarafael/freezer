@@ -13,6 +13,8 @@ qt_add_executable(appfreezer
     readsensor.h readsensor.cpp
     processitem.h processitem.cpp
     processmodel.h processmodel.cpp
+    product.h product.cpp
+    productsmodel.h productsmodel.cpp
 )
 
 qt_add_qml_module(appfreezer
@@ -28,6 +30,7 @@ qt_add_qml_module(appfreezer
         QML_FILES ProcessItemDelegate.qml
         QML_FILES RadialBarShape.qml
         QML_FILES StatusCard.qml
+        QML_FILES SettingsPanel.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

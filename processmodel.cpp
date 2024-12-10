@@ -3,6 +3,9 @@
 ProcessModel::ProcessModel(QObject *parent)
     :QAbstractListModel{parent}
 {
+    m_temperature = 0;
+    m_sensorStatus = 0;
+
     for(int i =0; i < 24; i++){
         m_processList.append(ProcessItem());
     }
@@ -68,4 +71,30 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
     names[MinutesMaxRole] = "minutesMax";
     names[MinutesCurrentRole] = "minutesCurrent";
     return names;
+}
+
+float ProcessModel::temperature() const
+{
+    return m_temperature;
+}
+
+void ProcessModel::setTemperature(float newTemperature)
+{
+    if (qFuzzyCompare(m_temperature, newTemperature))
+        return;
+    m_temperature = newTemperature;
+    emit temperatureChanged();
+}
+
+int ProcessModel::sensorStatus() const
+{
+    return m_sensorStatus;
+}
+
+void ProcessModel::setSensorStatus(int newSensorStatus)
+{
+    if (m_sensorStatus == newSensorStatus)
+        return;
+    m_sensorStatus = newSensorStatus;
+    emit sensorStatusChanged();
 }

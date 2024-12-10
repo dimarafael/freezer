@@ -31,7 +31,8 @@ public:
 
     int sensorStatus() const;
     void setSensorStatus(int newSensorStatus);
-
+public slots:
+    void dataReady(float temperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
 signals:
     void temperatureChanged();
 
@@ -40,7 +41,7 @@ signals:
 private:
     QList<ProcessItem> m_processList;
     float m_temperature;
-    int m_sensorStatus; // 0 - o, 1 - module offline, 2 - sensor not connected
+    int m_sensorStatus; // 0 - ok, 1 - module offline, 2 - sensor not connected
 };
 
 #endif // PROCESSMODEL_H

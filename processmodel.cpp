@@ -98,3 +98,9 @@ void ProcessModel::setSensorStatus(int newSensorStatus)
     m_sensorStatus = newSensorStatus;
     emit sensorStatusChanged();
 }
+
+void ProcessModel::dataReady(float temperature, int status)
+{
+    setTemperature(temperature);
+    setSensorStatus(status);
+}

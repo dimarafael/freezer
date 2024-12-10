@@ -28,7 +28,9 @@ int main(int argc, char *argv[])
     QObject::connect(threadReadSensor, &QThread::started, readSensor, &ReadSensor::run);
 
     readSensor->moveToThread(threadReadSensor);
-    // threadReadSensor->start();
+    threadReadSensor->start();
+
+    QObject::connect(readSensor, &ReadSensor::dataReady, processModel, &ProcessModel::dataReady);
 
     QObject::connect(
         &engine,

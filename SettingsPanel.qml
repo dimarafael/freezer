@@ -534,12 +534,14 @@ Item {
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine2.text);
-                        else{
-                            ProductsModel.append(txtEditLine2.text);
-                            listProducts.positionViewAtEnd();
+                        if(txtEditLine2.text.length > 0){
+                            if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine2.text);
+                            else{
+                                ProductsModel.append(txtEditLine2.text);
+                                listProducts.positionViewAtEnd();
+                            }
+                            popUpAddEdit.visible = false
                         }
-                        popUpAddEdit.visible = false
                     }
                 }
             }

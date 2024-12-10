@@ -12,6 +12,7 @@ Item{
     property color colorGrad1 : "#75B5FF"
     property color colorGrad2 : "#3E95F9"
     property real value: 0
+    property string posNum: ""
     
     Rectangle{
         id: rectBase
@@ -46,7 +47,7 @@ Item{
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             color: root.textColor
-            text: getPositionNumber(index)
+            text: root.posNum
         }
     }
     

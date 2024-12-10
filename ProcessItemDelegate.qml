@@ -62,6 +62,24 @@ Item{
         color: Qt.lighter( "#7F7F7F" )
     }
 
+    Item{
+        id: itemPositionNumber
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: root.defMargin
+        height: parent.height / 10
+        width: height
+        Text{
+            id: textPositionNumber
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: parent.height
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            color: "#416f4c"
+            text: root.getPositionNumber(index)
+        }
+    }
+
     StatusCard {
         id: itemStatusCooling
         anchors.fill: parent
@@ -73,6 +91,7 @@ Item{
         colorGrad1 : "#75B5FF"
         colorGrad2 : "#3E95F9"
         value: (minutesCurrent / minutesMin) * 100
+        posNum: root.getPositionNumber(index)
     }
 
     StatusCard {
@@ -86,6 +105,7 @@ Item{
         colorGrad1 : "#61B94A"
         colorGrad2 : "#3E9149"
         value: ((minutesCurrent - minutesMin) / (minutesMax - minutesMin)) * 100
+        posNum: root.getPositionNumber(index)
     }
 
     StatusCard {
@@ -99,6 +119,6 @@ Item{
         colorGrad1 : "#CA7154"
         colorGrad2 : "#EE2F37"
         value: 100
+        posNum: root.getPositionNumber(index)
     }
-
 }

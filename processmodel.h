@@ -31,6 +31,9 @@ public:
 
     int sensorStatus() const;
     void setSensorStatus(int newSensorStatus);
+
+    Q_INVOKABLE void stopProcess(int index);
+
 public slots:
     void dataReady(float temperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
 signals:

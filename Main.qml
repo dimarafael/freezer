@@ -207,6 +207,15 @@ Window {
                 height: gridViev.cellHeight
                 defMargin: window.defMargin
                 shadowColor: window.shadowColor
+
+                onStopProcess: index => {
+                    popUpStop.index = index
+                    popUpStop.visible = true
+                }
+                onStartProcess: index => {
+                    // popUpStart.index = index
+                    // popUpStart.visible = true
+                }
             }
         }
 
@@ -232,6 +241,48 @@ Window {
         }
 
     } // Item root content
+
+    Rectangle{
+        id:popUpBG
+        x: 0
+        y: 0
+        width: window.width
+        height: window.height
+        color: "gray"
+        opacity: 0.7
+        visible: popUpStop.visible// | popUpStart.visible
+        MouseArea{
+            anchors.fill: parent
+            onClicked: focus=true
+        }
+    }
+
+    DropShadow {
+        anchors.fill: popUpStop
+        source: popUpStop
+        horizontalOffset: window.defMargin / 3
+        verticalOffset: window.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpStop.visible
+    }
+    PopUpStop {
+        id: popUpStop
+        anchors.centerIn: parent
+        width: parent.width / 2
+        height: parent.height / 2
+        radius: window.defMargin
+        visible: false
+
+        buttonWidth: window.width / 5
+        fontSize: window.fontSize1
+
+        onStop: index => {
+            ProcessModel.stopProcess(index)
+        }
+    }
+
 
 
     InputPanel {

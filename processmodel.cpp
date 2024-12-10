@@ -99,6 +99,13 @@ void ProcessModel::setSensorStatus(int newSensorStatus)
     emit sensorStatusChanged();
 }
 
+void ProcessModel::stopProcess(int index)
+{
+    beginResetModel();
+    m_processList[index].setState(0);
+    endResetModel();
+}
+
 void ProcessModel::dataReady(float temperature, int status)
 {
     setTemperature(temperature);

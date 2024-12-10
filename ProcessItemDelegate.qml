@@ -8,6 +8,9 @@ Item{
     property int defMargin: 5
     property color shadowColor: "#88000000"
 
+    signal stopProcess(int index)
+    signal startProcess(int index)
+
     function getElapsedTime(cur, targ){
         var elapsed
         if (targ >= cur){
@@ -40,6 +43,8 @@ Item{
         onClicked: {
             focus: true
             console.log("Delegate clicked " + (index+1).toString())
+            if(stage > 0) root.stopProcess(index)
+            else root.startProcess(index)
         }
     }
     DropShadow {

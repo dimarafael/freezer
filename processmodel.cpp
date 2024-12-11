@@ -6,30 +6,41 @@ ProcessModel::ProcessModel(QObject *parent)
     m_temperature = 0;
     m_sensorStatus = 0;
 
-    for(int i =0; i < 24; i++){
+    for(int i =0; i < PLACES_QTY; i++){
         m_processList.append(ProcessItem());
     }
 
-    m_processList[0].setProductName("Test product 1");
-    m_processList[0].setState(1);
-    m_processList[0].setCurrentTemperature(28.9);
-    m_processList[0].setMinutesMin(28);
-    m_processList[0].setMinutesMax(32);
-    m_processList[0].setMinutesCurrent(23);
+    m_timerCalculateProcess = new QTimer(this);
+    m_timerCalculateProcess->setInterval(10000);
+    connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
+    m_timerCalculateProcess->start();
 
-    m_processList[1].setProductName("Test product 2");
-    m_processList[1].setState(2);
-    m_processList[1].setCurrentTemperature(1.4);
-    m_processList[1].setMinutesMin(28);
-    m_processList[1].setMinutesMax(32);
-    m_processList[1].setMinutesCurrent(31);
+    // m_processList[0].setProductName("Test product 1");
+    // m_processList[0].setState(1);
+    // m_processList[0].setCurrentTemperature(28.9);
+    // m_processList[0].setMinutesMin(28);
+    // m_processList[0].setMinutesMax(32);
+    // m_processList[0].setMinutesCurrent(23);
+    // m_processList[0].setStartDateTime(QDateTime::currentDateTime());
+    // m_processList[0].setStartTemperature(30);
 
-    m_processList[2].setProductName("Test product 3");
-    m_processList[2].setState(3);
-    m_processList[2].setCurrentTemperature(-0.3);
-    m_processList[2].setMinutesMin(28);
-    m_processList[2].setMinutesMax(32);
-    m_processList[2].setMinutesCurrent(37);
+    // m_processList[1].setProductName("Test product 2");
+    // m_processList[1].setState(2);
+    // m_processList[1].setCurrentTemperature(1.4);
+    // m_processList[1].setMinutesMin(28);
+    // m_processList[1].setMinutesMax(32);
+    // m_processList[1].setMinutesCurrent(31);
+    // m_processList[1].setStartDateTime(QDateTime::currentDateTime());
+    // m_processList[0].setStartTemperature(30);
+
+    // m_processList[2].setProductName("Test product 3");
+    // m_processList[2].setState(3);
+    // m_processList[2].setCurrentTemperature(-0.3);
+    // m_processList[2].setMinutesMin(28);
+    // m_processList[2].setMinutesMax(32);
+    // m_processList[2].setMinutesCurrent(37);
+    // m_processList[2].setStartDateTime(QDateTime::currentDateTime());
+    // m_processList[0].setStartTemperature(30);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -127,9 +138,41 @@ void ProcessModel::dataReady(float sensorTemperature, int status)
     setMinutesRequired(calculateRequiredMinutes(temperature(), 1.5));
 }
 
+void ProcessModel::calculateProcess()
+{
+    qDebug() << "calculateProcess";
+    beginResetModel();
+    for(int i =0; i < PLACES_QTY; i++){
+        int minutesInProcess = 0;
+        if (m_processList[i].state() > 0){
+            std::chrono::milliseconds msInProcess = QDateTime::currentDateTime() - m_processList[i].startDateTime();
+            int intMsInProcess = msInProcess.count();
+            qDebug() << "intMsInProcess=" << intMsInProcess;
+            minutesInProcess = std::chrono::duration_cast<std::chrono::minutes>(QDateTime::currentDateTime() - m_processList[i].startDateTime()).count();
+            qDebug() << "Place: " << i << " minutesInProcess=" << minutesInProcess;
+            m_processList[i].setCurrentTemperature(calculateExpextedTemperature(m_processList[i].startTemperature() ,minutesInProcess));
+
+            if (minutesInProcess > m_processList[i].minutesMin() && minutesInProcess <= m_processList[i].minutesMax()) {
+                // status ready
+                m_processList[i].setState(2);
+                m_processList[i].setMinutesCurrent(minutesInProcess - m_processList[i].minutesMin());
+            } else if (minutesInProcess > m_processList[i].minutesMax()){
+                // status overcooled
+                m_processList[i].setState(3);
+                m_processList[i].setMinutesCurrent(minutesInProcess - m_processList[i].minutesMax());
+            } else{
+                // status cooling
+                m_processList[i].setState(1);
+                m_processList[i].setMinutesCurrent(minutesInProcess);
+            }
+        }
+    }
+    endResetModel();
+}
+
 int ProcessModel::calculateRequiredMinutes(float startTemperature, float targetTemperature)
 {
-    return 15 - floor(targetTemperature * 2); // ?????????????????????????????
+    return 7 - floor(targetTemperature * 2); // ?????????????????????????????
 }
 
 float ProcessModel::calculateExpextedTemperature(float startTemperature, int minutes)

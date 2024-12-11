@@ -3,7 +3,10 @@
 
 #include <QAbstractListModel>
 #include <QObject>
+#include <QTimer>
 #include "processitem.h"
+
+#define PLACES_QTY 24
 
 class ProcessModel : public QAbstractListModel
 {
@@ -41,6 +44,9 @@ public:
 
 public slots:
     void dataReady(float sensorTemperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
+
+private slots:
+    void calculateProcess();
 signals:
     void temperatureChanged();
 
@@ -52,7 +58,7 @@ private:
     QList<ProcessItem> m_processList;
     float m_temperature;
     int m_sensorStatus; // 0 - ok, 1 - module offline, 2 - sensor not connected
-
+    QTimer *m_timerCalculateProcess;
 
     int calculateRequiredMinutes(float startTemperature, float targetTemperature);
     float calculateExpextedTemperature(float startTemperature, int minutes);

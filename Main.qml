@@ -5,9 +5,11 @@ import com.kometa.ProcessModel
 
 Window {
     id: window
-    width: 1024
-    height: 768
+    width: Screen.width // 1024
+    height: Screen.height //768
     visible: true
+    visibility: window.FullScreen
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
     title: qsTr("Freezer")
 
     readonly property int defMargin: window.height * 0.01

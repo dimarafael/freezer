@@ -214,7 +214,8 @@ Rectangle{
                 id: mouseAreaOk
                 anchors.fill: parent
                 onClicked: {
-                    if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
+                    // if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
+                    if(listProducts.indexSelected >= 0){
                         root.start(root.index, listProducts.nameSelected)
                         root.visible = false
                     }

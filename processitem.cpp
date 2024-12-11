@@ -7,6 +7,8 @@ ProcessItem::ProcessItem(){
     m_minutesMin = 0;
     m_minutesMax = 0;
     m_minutesCurrent = 0;
+    m_startTemperature = 0;
+    m_startDateTime = QDateTime::currentDateTime();
 }
 
 QString ProcessItem::productName() const

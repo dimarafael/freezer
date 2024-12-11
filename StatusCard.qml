@@ -52,6 +52,7 @@ Item{
     }
     
     Item {
+        visible: false // temporary !!!!!!!!!!!!!!!!!
         id: itemTemperature
         height: parent.height / 10
         anchors.left: parent.left

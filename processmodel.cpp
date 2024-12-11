@@ -10,6 +10,8 @@ ProcessModel::ProcessModel(QObject *parent)
         m_processList.append(ProcessItem());
     }
 
+    readFromSettings();
+
     m_timerCalculateProcess = new QTimer(this);
     m_timerCalculateProcess->setInterval(10000);
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
@@ -115,6 +117,7 @@ void ProcessModel::stopProcess(int index)
     beginResetModel();
     m_processList[index].setState(0);
     endResetModel();
+    writeToSettings();
 }
 
 void ProcessModel::startProcess(int index, QString productName)
@@ -123,19 +126,22 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setState(1);
     m_processList[index].setProductName(productName);
     m_processList[index].setMinutesCurrent(0);
-    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature(), 1.5));
-    m_processList[index].setMinutesMax(calculateRequiredMinutes(temperature(), 0.5));
+    // m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature(), 1.5));
+    // m_processList[index].setMinutesMax(calculateRequiredMinutes(temperature(), 0.5));
+    m_processList[index].setMinutesMin(120); // change to function !!!!!!!!!!!!!!!!!!!!
+    m_processList[index].setMinutesMax(240); // change to function !!!!!!!!!!!!!!!!!!!!
     m_processList[index].setCurrentTemperature(temperature());
     m_processList[index].setStartTemperature(temperature());
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
+    writeToSettings();
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)
 {
     setTemperature(sensorTemperature);
     setSensorStatus(status);
-    setMinutesRequired(calculateRequiredMinutes(temperature(), 1.5));
+    setMinutesRequired(120); // change to function !!!!!!!!!!!!!!!!!!!!
 }
 
 void ProcessModel::calculateProcess()
@@ -173,7 +179,37 @@ int ProcessModel::calculateRequiredMinutes(float startTemperature, float targetT
 
 float ProcessModel::calculateExpextedTemperature(float startTemperature, int minutes)
 {
-    return 12.3; // ?????????????????????????????
+    return 0; // ?????????????????????????????
+}
+
+void ProcessModel::readFromSettings()
+{
+    int size = m_settings.beginReadArray("process");
+    for (int i = 0; i < size; ++i) {
+        m_settings.setArrayIndex(i);
+        m_processList[i].setProductName(m_settings.value("name","").toString());
+        m_processList[i].setState(m_settings.value("state").toInt());
+        m_processList[i].setMinutesMin(m_settings.value("minutesMin").toInt());
+        m_processList[i].setMinutesMax(m_settings.value("minutesMax").toInt());
+        m_processList[i].setStartDateTime(QDateTime::fromSecsSinceEpoch(m_settings.value("startDateTime").toLongLong()));
+        m_processList[i].setStartTemperature(m_settings.value("startTemperature").toFloat());
+    }
+    m_settings.endArray();
+}
+
+void ProcessModel::writeToSettings()
+{
+    m_settings.beginWriteArray("process");
+    for(qsizetype i = 0; i < m_processList.size(); ++i){
+        m_settings.setArrayIndex(i);
+        m_settings.setValue("name", m_processList.at(i).productName());
+        m_settings.setValue("state" ,m_processList.at(i).state());
+        m_settings.setValue("minutesMin", m_processList.at(i).minutesMin());
+        m_settings.setValue("minutesMax", m_processList.at(i).minutesMax());
+        m_settings.setValue("startDateTime", m_processList.at(i).startDateTime().toSecsSinceEpoch());
+        m_settings.setValue("startTemperature", m_processList.at(i).startTemperature());
+    }
+    m_settings.endArray();
 }
 
 int ProcessModel::minutesRequired() const

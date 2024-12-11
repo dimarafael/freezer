@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include <QTimer>
+#include <QSettings>
 #include "processitem.h"
 
 #define PLACES_QTY 24
@@ -59,10 +60,13 @@ private:
     float m_temperature;
     int m_sensorStatus; // 0 - ok, 1 - module offline, 2 - sensor not connected
     QTimer *m_timerCalculateProcess;
+    QSettings m_settings;
 
     int calculateRequiredMinutes(float startTemperature, float targetTemperature);
     float calculateExpextedTemperature(float startTemperature, int minutes);
     int m_minutesRequired;
+    void readFromSettings();
+    void writeToSettings();
 };
 
 #endif // PROCESSMODEL_H

@@ -2,7 +2,7 @@
 #define PROCESSITEM_H
 
 #include <QString>
-#include <QTime>
+#include <QDateTime>
 
 class ProcessItem
 {
@@ -28,6 +28,12 @@ public:
     int minutesCurrent() const;
     void setMinutesCurrent(int newMinutesCurrent);
 
+    QDateTime startDateTime() const;
+    void setStartDateTime(const QDateTime &newStartDateTime);
+
+    float startTemperature() const;
+    void setStartTemperature(float newStartTemperature);
+
 private:
     QString m_productName;
     int m_state; //0 empty, 1 cooling, 2 ready, 3 overcooled
@@ -35,6 +41,8 @@ private:
     int m_minutesMin;
     int m_minutesMax;
     int m_minutesCurrent;
+    QDateTime m_startDateTime;
+    float m_startTemperature;
 };
 
 #endif // PROCESSITEM_H

@@ -69,3 +69,23 @@ void ProcessItem::setMinutesCurrent(int newMinutesCurrent)
     m_minutesCurrent = newMinutesCurrent;
 }
 
+QDateTime ProcessItem::startDateTime() const
+{
+    return m_startDateTime;
+}
+
+void ProcessItem::setStartDateTime(const QDateTime &newStartDateTime)
+{
+    m_startDateTime = newStartDateTime;
+}
+
+float ProcessItem::startTemperature() const
+{
+    return m_startTemperature;
+}
+
+void ProcessItem::setStartTemperature(float newStartTemperature)
+{
+    m_startTemperature = newStartTemperature;
+}
+

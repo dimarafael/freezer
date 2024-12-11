@@ -106,8 +106,32 @@ void ProcessModel::stopProcess(int index)
     endResetModel();
 }
 
+void ProcessModel::startProcess(int index, QString productName)
+{
+    beginResetModel();
+    m_processList[index].setState(1);
+    m_processList[index].setProductName(productName);
+    m_processList[index].setMinutesCurrent(0);
+    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature() ,1.5));
+    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature() ,0.5));
+    m_processList[index].setCurrentTemperature(temperature());
+    m_processList[index].setStartTemperature(temperature());
+    m_processList[index].setStartDateTime(QDateTime::currentDateTime());
+    endResetModel();
+}
+
 void ProcessModel::dataReady(float temperature, int status)
 {
     setTemperature(temperature);
     setSensorStatus(status);
+}
+
+int ProcessModel::calculateRequiredMinutes(float startTemperature, float targetTemperature)
+{
+    return 15 - floor(targetTemperature * 2);
+}
+
+float ProcessModel::calculateExpextedTemperature(float startTemperature, int minutes)
+{
+    return 12.3;
 }

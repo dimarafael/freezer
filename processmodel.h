@@ -33,6 +33,7 @@ public:
     void setSensorStatus(int newSensorStatus);
 
     Q_INVOKABLE void stopProcess(int index);
+    Q_INVOKABLE void startProcess(int index, QString productName);
 
 public slots:
     void dataReady(float temperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
@@ -45,6 +46,10 @@ private:
     QList<ProcessItem> m_processList;
     float m_temperature;
     int m_sensorStatus; // 0 - ok, 1 - module offline, 2 - sensor not connected
+
+
+    int calculateRequiredMinutes(float startTemperature, float targetTemperature);
+    float calculateExpextedTemperature(float startTemperature, int minutes);
 };
 
 #endif // PROCESSMODEL_H

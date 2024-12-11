@@ -140,33 +140,29 @@ void ProcessModel::dataReady(float sensorTemperature, int status)
 
 void ProcessModel::calculateProcess()
 {
-    qDebug() << "calculateProcess";
+    // qDebug() << "calculateProcess";
     beginResetModel();
     for(int i =0; i < PLACES_QTY; i++){
         int minutesInProcess = 0;
         if (m_processList[i].state() > 0){
-            std::chrono::milliseconds msInProcess = QDateTime::currentDateTime() - m_processList[i].startDateTime();
-            int intMsInProcess = msInProcess.count();
-            qDebug() << "intMsInProcess=" << intMsInProcess;
             minutesInProcess = std::chrono::duration_cast<std::chrono::minutes>(QDateTime::currentDateTime() - m_processList[i].startDateTime()).count();
-            qDebug() << "Place: " << i << " minutesInProcess=" << minutesInProcess;
+            // qDebug() << "Place: " << i << " minutesInProcess=" << minutesInProcess;
+            m_processList[i].setMinutesCurrent(minutesInProcess);
             m_processList[i].setCurrentTemperature(calculateExpextedTemperature(m_processList[i].startTemperature() ,minutesInProcess));
 
-            if (minutesInProcess > m_processList[i].minutesMin() && minutesInProcess <= m_processList[i].minutesMax()) {
+            if (minutesInProcess >= m_processList[i].minutesMin() && minutesInProcess <= m_processList[i].minutesMax()) {
                 // status ready
                 m_processList[i].setState(2);
-                m_processList[i].setMinutesCurrent(minutesInProcess - m_processList[i].minutesMin());
             } else if (minutesInProcess > m_processList[i].minutesMax()){
                 // status overcooled
                 m_processList[i].setState(3);
-                m_processList[i].setMinutesCurrent(minutesInProcess - m_processList[i].minutesMax());
             } else{
                 // status cooling
                 m_processList[i].setState(1);
-                m_processList[i].setMinutesCurrent(minutesInProcess);
             }
         }
     }
+    // qDebug() << "-------------------";
     endResetModel();
 }
 

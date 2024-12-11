@@ -12,6 +12,7 @@ Window {
 
     readonly property int defMargin: window.height * 0.01
     readonly property color shadowColor: "#88000000"
+    readonly property int fontSize1: Math.round(window.height / 30)
 
     property bool showSettings: false
 
@@ -213,8 +214,8 @@ Window {
                     popUpStop.visible = true
                 }
                 onStartProcess: index => {
-                    // popUpStart.index = index
-                    // popUpStart.visible = true
+                    popUpStart.index = index
+                    popUpStart.visible = true
                 }
             }
         }
@@ -250,11 +251,36 @@ Window {
         height: window.height
         color: "gray"
         opacity: 0.7
-        visible: popUpStop.visible// | popUpStart.visible
+        visible: popUpStop.visible | popUpStart.visible
         MouseArea{
             anchors.fill: parent
             onClicked: focus=true
         }
+    }
+
+    DropShadow {
+        anchors.fill: popUpStart
+        source: popUpStart
+        horizontalOffset: window.defMargin / 3
+        verticalOffset: window.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpStart.visible
+    }
+    PopUpStart {
+        id: popUpStart
+        anchors.centerIn: parent
+        width: parent.width * 0.6
+        height: parent.height * 0.8
+        radius: window.defMargin
+        visible: false
+
+        buttonWidth: window.width / 5
+        fontSize: window.fontSize1
+        onStart: (index, productName) => {
+                     ProcessModel.startProcess(index, productName)
+                 }
     }
 
     DropShadow {

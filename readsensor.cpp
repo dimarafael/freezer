@@ -33,7 +33,7 @@ void ReadSensor::networkTimeout(){
 
 void ReadSensor::readData()
 {
-    qDebug() << "Reading sensor ...";
+    // qDebug() << "Reading sensor ...";
     if(!m_networkTimeoutTimer->isActive()){
         m_networkTimeoutTimer->start(2000);
         m_manager->get(QNetworkRequest(QUrl("http://10.0.99.5/iolinkmaster/port[4]/iolinkdevice/pdin/getdata")));
@@ -42,7 +42,7 @@ void ReadSensor::readData()
 
 void ReadSensor::handleReply(QNetworkReply* reply)
 {
-    qDebug() << "handleReply";
+    // qDebug() << "handleReply";
     if (reply->error() != QNetworkReply::NoError) {
         if (reply->error() == QNetworkReply::HostNotFoundError ||
             reply->error() == QNetworkReply::ConnectionRefusedError ||
@@ -68,7 +68,7 @@ void ReadSensor::handleReply(QNetworkReply* reply)
                 bool ok = false;
                 int intValue = hexValue.toInt(&ok, 16); // Convert hex string to integer
                 if (ok) {
-                    qDebug() << "Hex value:" << hexValue << "Integer value:" << intValue;
+                    // qDebug() << "Hex value:" << hexValue << "Integer value:" << intValue;
                     m_networkTimeoutTimer->stop();
                     emit dataReady((static_cast<float>(intValue))/10, 0); // 0 - ok
                 } else {

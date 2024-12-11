@@ -10,6 +10,7 @@ class ProcessModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(float temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged FINAL)
     Q_PROPERTY(int sensorStatus READ sensorStatus WRITE setSensorStatus NOTIFY sensorStatusChanged FINAL)
+    Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL)
 public:
     enum Role{
         ProductNameRole = Qt::UserRole + 1,
@@ -35,12 +36,17 @@ public:
     Q_INVOKABLE void stopProcess(int index);
     Q_INVOKABLE void startProcess(int index, QString productName);
 
+    int minutesRequired() const;
+    void setMinutesRequired(int newMinutesRequired);
+
 public slots:
-    void dataReady(float temperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
+    void dataReady(float sensorTemperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
 signals:
     void temperatureChanged();
 
     void sensorStatusChanged();
+
+    void minutesRequiredChanged();
 
 private:
     QList<ProcessItem> m_processList;
@@ -50,6 +56,7 @@ private:
 
     int calculateRequiredMinutes(float startTemperature, float targetTemperature);
     float calculateExpextedTemperature(float startTemperature, int minutes);
+    int m_minutesRequired;
 };
 
 #endif // PROCESSMODEL_H

@@ -112,26 +112,40 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setState(1);
     m_processList[index].setProductName(productName);
     m_processList[index].setMinutesCurrent(0);
-    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature() ,1.5));
-    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature() ,0.5));
+    m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature(), 1.5));
+    m_processList[index].setMinutesMax(calculateRequiredMinutes(temperature(), 0.5));
     m_processList[index].setCurrentTemperature(temperature());
     m_processList[index].setStartTemperature(temperature());
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
 }
 
-void ProcessModel::dataReady(float temperature, int status)
+void ProcessModel::dataReady(float sensorTemperature, int status)
 {
-    setTemperature(temperature);
+    setTemperature(sensorTemperature);
     setSensorStatus(status);
+    setMinutesRequired(calculateRequiredMinutes(temperature(), 1.5));
 }
 
 int ProcessModel::calculateRequiredMinutes(float startTemperature, float targetTemperature)
 {
-    return 15 - floor(targetTemperature * 2);
+    return 15 - floor(targetTemperature * 2); // ?????????????????????????????
 }
 
 float ProcessModel::calculateExpextedTemperature(float startTemperature, int minutes)
 {
-    return 12.3;
+    return 12.3; // ?????????????????????????????
+}
+
+int ProcessModel::minutesRequired() const
+{
+    return m_minutesRequired;
+}
+
+void ProcessModel::setMinutesRequired(int newMinutesRequired)
+{
+    if (m_minutesRequired == newMinutesRequired)
+        return;
+    m_minutesRequired = newMinutesRequired;
+    emit minutesRequiredChanged();
 }

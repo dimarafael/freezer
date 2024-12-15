@@ -88,10 +88,45 @@ Item{
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
+            // horizontalAlignment: Text.AlignLeft
+            horizontalAlignment:Text.AlignHCenter
             font.pixelSize: root.height / 10
             color: root.textColor
             text: root.prodName
+            width: Math.max(itemProductName.width, textProductName.implicitWidth)
+
+            property int aniShift: 0;
+
+            Component.onCompleted: {
+                textProductName.aniShift = itemProductName.width - textProductName.implicitWidth
+                animationName.running = (itemProductName.width < textProductName.implicitWidth) && (itemProductName.width > 0) && root.visible
+            }
+
+            SequentialAnimation{
+                id: animationName
+                running: false
+                loops: Animation.Infinite
+                alwaysRunToEnd: true
+
+                NumberAnimation{
+                    id: ani1
+                    target: textProductName
+                    property: "x"
+                    from: 0
+                    to: textProductName.aniShift
+                    duration: 2000
+                }
+                PauseAnimation { duration: 500 }
+                NumberAnimation{
+                    id: ani2
+                    targets: textProductName
+                    property: "x"
+                    from: textProductName.aniShift
+                    to: 0
+                    duration: 2000
+                }
+                PauseAnimation { duration: 500 }
+            }
         }
         
     }

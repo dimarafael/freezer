@@ -9,7 +9,7 @@ Window {
     height: Screen.height //768
     visible: true
     visibility: window.FullScreen
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
+    // flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
     title: qsTr("Freezer")
 
     readonly property int defMargin: window.height * 0.01

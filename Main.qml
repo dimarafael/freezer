@@ -5,8 +5,8 @@ import com.kometa.ProcessModel
 
 Window {
     id: window
-    width: Screen.width // 1024
-    height: Screen.height //768
+    width: Screen.width / 2 // 1024
+    height: Screen.height / 2 //768
     visible: true
     visibility: window.FullScreen
     // flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog

@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QSettings>
 #include "processitem.h"
+#include "dbmanager.h"
 
 #define PLACES_QTY 24
 
@@ -67,6 +68,8 @@ private:
     int m_minutesRequired;
     void readFromSettings();
     void writeToSettings();
+
+    DBManager *dbManager;
 };
 
 #endif // PROCESSMODEL_H

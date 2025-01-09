@@ -17,6 +17,8 @@ ProcessModel::ProcessModel(QObject *parent)
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
 
+    dbManager = new DBManager(this);
+
     // m_processList[0].setProductName("Test product 1");
     // m_processList[0].setState(1);
     // m_processList[0].setCurrentTemperature(28.9);
@@ -118,6 +120,7 @@ void ProcessModel::stopProcess(int index)
     m_processList[index].setState(0);
     endResetModel();
     writeToSettings();
+    dbManager->addData(index,false,"");
 }
 
 void ProcessModel::startProcess(int index, QString productName)
@@ -135,6 +138,7 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
     writeToSettings();
+    dbManager->addData(index,true,productName);
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)

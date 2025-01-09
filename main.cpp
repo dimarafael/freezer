@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
+
     ProcessModel *processModel = new ProcessModel(&app);
     qmlRegisterSingletonInstance("com.kometa.ProcessModel", 1, 1, "ProcessModel", processModel);
 

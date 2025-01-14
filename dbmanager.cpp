@@ -23,7 +23,7 @@ DBManager::~DBManager()
     }
 }
 
-bool DBManager::addData(int place, bool occupied, const QString &name)
+bool DBManager::addData(int place, bool occupied, const QString &name, float startTemperature, QDateTime startDateTime)
 {
     if (!db.isOpen()) {
         qWarning() << "Database is not open!";
@@ -32,12 +32,14 @@ bool DBManager::addData(int place, bool occupied, const QString &name)
 
     QSqlQuery query;
     query.prepare(R"(
-            INSERT INTO freezer (place, occupied, name)
-            VALUES (:place, :occupied, :name)
+            INSERT INTO freezer (place, occupied, name, startTemp, startDateTime)
+            VALUES (:place, :occupied, :name, :startTemp, :startDateTime)
         )");
     query.bindValue(":place", place);
     query.bindValue(":occupied", occupied);
     query.bindValue(":name", name.isEmpty() ? QVariant(QMetaType(QMetaType::QString)) : name); // if empty string send NULL
+    query.bindValue(":startTemp", startTemperature);
+    query.bindValue(":startDateTime", startDateTime);
 
     if (!query.exec()) {
         qWarning() << "Failed to insert data:" << query.lastError().text();

@@ -17,7 +17,7 @@ ProcessModel::ProcessModel(QObject *parent)
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
 
-    dbManager = new DBManager(this);
+    // connect(dbManager, &DBManager::dbConnected, this, &ProcessModel::setDbConnected);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -93,7 +93,7 @@ void ProcessModel::stopProcess(int index)
     m_processList[index].setState(0);
     endResetModel();
     writeToSettings();
-    dbManager->addData(index,false,"",0,QDateTime::currentDateTime());
+    emit addDataToDB(index,false,"",0,QDateTime::currentDateTime());
 }
 
 void ProcessModel::startProcess(int index, QString productName)
@@ -111,7 +111,7 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
     writeToSettings();
-    dbManager->addData(index,true,productName,temperature(),QDateTime::currentDateTime());
+    emit addDataToDB(index,true,productName,temperature(),QDateTime::currentDateTime());
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)
@@ -200,4 +200,17 @@ void ProcessModel::setMinutesRequired(int newMinutesRequired)
         return;
     m_minutesRequired = newMinutesRequired;
     emit minutesRequiredChanged();
+}
+
+bool ProcessModel::dbConnected() const
+{
+    return m_dbConnected;
+}
+
+void ProcessModel::setDbConnected(bool newDbConnected)
+{
+    if (m_dbConnected == newDbConnected)
+        return;
+    m_dbConnected = newDbConnected;
+    emit dbConnectedChanged();
 }

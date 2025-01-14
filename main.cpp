@@ -4,6 +4,7 @@
 #include "readsensor.h"
 #include "processmodel.h"
 #include "productsmodel.h"
+#include "dbmanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +17,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
 
     ProcessModel *processModel = new ProcessModel(&app);
     qmlRegisterSingletonInstance("com.kometa.ProcessModel", 1, 1, "ProcessModel", processModel);
@@ -31,6 +34,14 @@ int main(int argc, char *argv[])
     threadReadSensor->start();
 
     QObject::connect(readSensor, &ReadSensor::dataReady, processModel, &ProcessModel::dataReady);
+
+    DBManager *dbManager = new DBManager();
+    QThread *threadDBManager = new QThread();
+    QObject::connect(threadDBManager, &QThread::started, dbManager, &DBManager::run);
+    QObject::connect(processModel, &ProcessModel::addDataToDB, dbManager, &DBManager::addData);
+    QObject::connect(dbManager, &DBManager::dbConnected, processModel, &ProcessModel::setDbConnected);
+    dbManager->moveToThread(threadDBManager);
+    threadDBManager->start();
 
     QObject::connect(
         &engine,

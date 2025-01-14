@@ -15,6 +15,7 @@ class ProcessModel : public QAbstractListModel
     Q_PROPERTY(float temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged FINAL)
     Q_PROPERTY(int sensorStatus READ sensorStatus WRITE setSensorStatus NOTIFY sensorStatusChanged FINAL)
     Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL)
+    Q_PROPERTY(bool dbConnected READ dbConnected WRITE setDbConnected NOTIFY dbConnectedChanged FINAL)
 public:
     enum Role{
         ProductNameRole = Qt::UserRole + 1,
@@ -43,6 +44,9 @@ public:
     int minutesRequired() const;
     void setMinutesRequired(int newMinutesRequired);
 
+    bool dbConnected() const;
+    void setDbConnected(bool newDbConnected);
+
 public slots:
     void dataReady(float sensorTemperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
 
@@ -54,6 +58,10 @@ signals:
     void sensorStatusChanged();
 
     void minutesRequiredChanged();
+
+    void dbConnectedChanged();
+
+    void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, QDateTime startDateTime);
 
 private:
     QList<ProcessItem> m_processList;
@@ -67,6 +75,8 @@ private:
     int m_minutesRequired;
     void readFromSettings();
     void writeToSettings();
+
+    bool m_dbConnected;
 };
 
 #endif // PROCESSMODEL_H

@@ -42,7 +42,7 @@ Item{
         anchors.fill: parent
         onClicked: {
             focus: true
-            console.log("Delegate clicked " + (index+1).toString())
+            // console.log("Delegate clicked " + (index+1).toString())
             if(stage > 0) root.stopProcess(index)
             else root.startProcess(index)
         }

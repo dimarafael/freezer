@@ -5,8 +5,8 @@ import com.kometa.ProcessModel
 
 Window {
     id: window
-    width: Screen.width // 1024
-    height: Screen.height //768
+    width: Screen.width / 2 // 1024
+    height: Screen.height / 2 //768
     visible: true
     visibility: window.FullScreen
     // flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
@@ -219,6 +219,25 @@ Window {
                     popUpStart.index = index
                     popUpStart.visible = true
                 }
+            }
+        }
+
+        Item{
+            id:itemDbOffline
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: window.defMargin
+            width: gridViev.cellWidth * 3
+            height: gridViev.cellHeight / 4
+            visible: !ProcessModel.dbConnected
+            Text{
+                id: textDbOffline
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
+                font.pixelSize: parent.height * 0.5
+                color: "red"
+                text: "Database offline!"
             }
         }
 

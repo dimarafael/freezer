@@ -4,7 +4,6 @@
 #include "readsensor.h"
 #include "processmodel.h"
 #include "productsmodel.h"
-// #include "dbmanager.h"
 #include <dbapi.h>
 
 int main(int argc, char *argv[])

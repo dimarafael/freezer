@@ -57,7 +57,7 @@ signals:
 
     void dbConnectedChanged();
 
-    void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, QDateTime startDateTime, float weight);
+    void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, float weight);
 
 private:
     QList<ProcessItem> m_processList;

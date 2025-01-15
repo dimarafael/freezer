@@ -9,7 +9,7 @@ void DbApi::run()
     networkManager = new QNetworkAccessManager(this);
 }
 
-void DbApi::postData(int place, bool occupied, const QString &name, float startTemperature, QDateTime startDateTime, float weight)
+void DbApi::postData(int place, bool occupied, const QString &name, float startTemperature, float weight)
 {
     QUrl url("http://10.0.10.64:1880/vedogaz/freezer/db/add");
     QNetworkRequest request(url);
@@ -20,7 +20,6 @@ void DbApi::postData(int place, bool occupied, const QString &name, float startT
     json["occupied"] = occupied;
     json["name"] = name;
     json["startTemperature"] = startTemperature;
-    json["startDateTime"] = startDateTime.toString(Qt::ISODate);
     json["weight"] = weight;
 
     QJsonDocument doc(json);

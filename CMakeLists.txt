@@ -15,7 +15,7 @@ qt_add_executable(appfreezer
     processmodel.h processmodel.cpp
     product.h product.cpp
     productsmodel.h productsmodel.cpp
-    dbmanager.h dbmanager.cpp
+    dbapi.h dbapi.cpp
 )
 
 qt_add_qml_module(appfreezer

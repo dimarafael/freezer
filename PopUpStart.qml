@@ -43,9 +43,115 @@ Rectangle{
         text: "Start process on place " + (root.index + 1)
     }
 
+    // Calculated required time
+    Item{
+        id: itemLine2
+        anchors.top: txtLine1.bottom
+        width: parent.width * 0.9
+        height: parent.height * 0.18
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Item{
+            id: itemWeight
+            anchors.left: parent.left
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width / 3
+
+            Image {
+                id: imgScale
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 3
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/scale.svg"
+            }
+
+            SetpointField{
+                id: setpointWeight
+                anchors.left: imgScale.right
+                anchors.leftMargin: root.fontSize / 3
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width * 0.7
+                height: root.fontSize * 1.8
+
+                minVal: 0
+                maxVal: 999
+                units: "kg"
+
+            }
+        }
+
+        Item{
+            id: itemTemperature
+            anchors.top: parent.top
+            anchors.right: parent.right
+            height: parent.height / 2
+            width: parent.width / 3
+            Image {
+                id: imgTemperature
+                anchors.left: parent.left
+                anchors.leftMargin: height / 4
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 2
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/temperature.svg"
+            }
+            Text{
+                visible: ProcessModel.sensorStatus === 0
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "black" //"#416f4c"
+                font.pixelSize: popUpStop.fontSize
+                text: ProcessModel.temperature.toFixed(1) + " °C"
+            }
+            Text{
+                visible: ProcessModel.sensorStatus > 0
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "red"
+                font.pixelSize: popUpStop.fontSize
+                text: "Sensor problem"
+            }
+        }
+
+        Item{
+            id: itemMinutesRequired
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            height: parent.height / 2
+            width: parent.width / 3
+            Image {
+                id: imgClock
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 2
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/clock.svg"
+            }
+
+            Text{
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "black" // "#416f4c"
+                font.pixelSize: popUpStop.fontSize
+                text: getTextTime(ProcessModel.minutesRequired)
+            }
+        }
+    }
+
     ListView{
         id: listProducts
-        anchors.top: txtLine1.bottom
+        anchors.top: itemLine2.bottom
         anchors.topMargin: parent.height / 100
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.9
@@ -135,39 +241,11 @@ Rectangle{
         }
     }
 
-    // Calculated required time
-    Item{
-        id: itemLine3
-        anchors.top: listProducts.bottom
-        width: parent.width * 0.9
-        height: parent.height * 0.18
-        anchors.horizontalCenter: parent.horizontalCenter
-        Text{
-            id: txtLine3
-            visible: ProcessModel.sensorStatus === 0
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: "#416f4c"
-            font.pixelSize: popUpStop.fontSize * 2
-            text: ProcessModel.temperature.toFixed(1) + " °C    :    " + getTextTime(ProcessModel.minutesRequired)
-        }
-        Text{
-            id: txtLine3SensorAlarm
-            visible: ProcessModel.sensorStatus > 0
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: "red"
-            font.pixelSize: popUpStop.fontSize * 2
-            text: "Temperature sensor problem"
-        }
-    }
 
     // Buttons Start Stop
     Item{
-        id: itemLine4
-        anchors.top: itemLine3.bottom
+        id: itemLineButtons
+        anchors.top: listProducts.bottom
         width: parent.width * 0.9
         height: parent.height * 0.18
         anchors.horizontalCenter: parent.horizontalCenter

@@ -26,14 +26,18 @@ qt_add_qml_module(appfreezer
         img/gear.svg
         img/trash.svg
         img/edit.svg
+        img/scale.svg
+        img/temperature.svg
+        img/clock.svg
     QML_FILES
         Main.qml
-        QML_FILES ProcessItemDelegate.qml
-        QML_FILES RadialBarShape.qml
-        QML_FILES StatusCard.qml
-        QML_FILES SettingsPanel.qml
-        QML_FILES PopUpStop.qml
-        QML_FILES PopUpStart.qml
+        SetpointField.qml
+        ProcessItemDelegate.qml
+        RadialBarShape.qml
+        StatusCard.qml
+        SettingsPanel.qml
+        PopUpStop.qml
+        PopUpStart.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

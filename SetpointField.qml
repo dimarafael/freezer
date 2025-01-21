@@ -15,6 +15,10 @@ Rectangle {
     property alias text: txtFld.text
     property string units: ""
 
+    function setFocus(){
+        txtFld.focus = true
+    }
+
     Rectangle{
         id: tooltip
         width: tooltipText.width + height

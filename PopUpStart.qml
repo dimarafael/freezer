@@ -295,8 +295,12 @@ Rectangle{
                 onClicked: {
                     // if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
                     if(listProducts.indexSelected >= 0){
-                        root.start(root.index, listProducts.nameSelected, parseFloat(setpointWeight.text) )
-                        root.visible = false
+                        if(parseFloat(setpointWeight.text) > 0){
+                            root.start(root.index, listProducts.nameSelected, parseFloat(setpointWeight.text) )
+                            root.visible = false
+                        } else {
+                            setpointWeight.setFocus()
+                        }
                     }
                 }
             }

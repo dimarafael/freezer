@@ -27,6 +27,17 @@ Rectangle{
         return hours + ":" + minutes
     }
 
+    function getPositionNumber(idx){
+        var line = Math.floor(idx/9);
+        if (line === 0){
+            return "A" + ((idx % 9) + 1)
+        } else if(line === 1){
+            return "B" + ((idx % 9) + 1)
+        } else  {
+            return "1" + (idx % 9)
+        }
+    }
+
     onVisibleChanged: {
         if(visible === true) {
             listProducts.indexSelected = -1
@@ -44,7 +55,7 @@ Rectangle{
         horizontalAlignment: Text.AlignHCenter
         color: "#416f4c"
         font.pixelSize: root.fontSize * 2
-        text: "Start process on place " + (root.index + 1)
+        text: "Start process on place " + getPositionNumber(root.index) //(root.index + 1)
     }
 
     Item{
@@ -116,7 +127,7 @@ Rectangle{
 
                 contentItem: Text {
                                 text: comboCrates.currentText
-                                font.pixelSize: comboCrates.height * 0.7
+                                font.pixelSize: root.fontSize
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 anchors.fill: parent
@@ -134,7 +145,7 @@ Rectangle{
 
                                 Text {
                                     text: modelData
-                                    font.pixelSize: comboCrates.height * 0.7
+                                    font.pixelSize: root.fontSize
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                     anchors.fill: parent
@@ -175,7 +186,7 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "black" //"#416f4c"
-                font.pixelSize: popUpStop.fontSize
+                font.pixelSize: root.fontSize
                 text: ProcessModel.temperature.toFixed(1) + " °C"
             }
             Text{
@@ -185,7 +196,7 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "red"
-                font.pixelSize: popUpStop.fontSize
+                font.pixelSize: root.fontSize
                 text: "Sensor problem"
             }
         }
@@ -212,7 +223,7 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "black" // "#416f4c"
-                font.pixelSize: popUpStop.fontSize
+                font.pixelSize: root.fontSize
                 text: getTextTime(ProcessModel.minutesRequired)
             }
         }

@@ -29,6 +29,7 @@ qt_add_qml_module(appfreezer
         img/scale.svg
         img/temperature.svg
         img/clock.svg
+        img/stack.svg
     QML_FILES
         Main.qml
         SetpointField.qml

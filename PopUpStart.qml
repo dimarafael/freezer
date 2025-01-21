@@ -31,6 +31,7 @@ Rectangle{
         if(visible === true) {
             listProducts.indexSelected = -1
             setpointWeight.text = 0
+            comboCrates.currentIndex = 6
         }
     }
 
@@ -85,11 +86,78 @@ Rectangle{
         }
 
         Item{
+            id: itemCrates
+            anchors.left: itemWeight.right
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width / 3
+
+            Image {
+                id: imgCrates
+                anchors.left: parent.left
+                anchors.leftMargin: root.fontSize / 2
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 3
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/stack.svg"
+            }
+
+            ComboBox{
+                id: comboCrates
+                width: parent.width / 2
+                height: root.fontSize * 1.8
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: imgCrates.right
+                anchors.leftMargin: root.fontSize / 3
+
+                model: [1, 2, 3, 4, 5, 6, 7]
+                currentIndex: 6
+
+                contentItem: Text {
+                                text: comboCrates.currentText
+                                font.pixelSize: comboCrates.height * 0.7
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                anchors.fill: parent
+                            }
+
+                delegate: Item {
+                                width: comboCrates.width
+                                height: comboCrates.height
+
+                                Rectangle{
+                                    anchors.fill: parent
+                                    color: "#3E95F9"
+                                    visible: comboCrates.currentIndex === index
+                                }
+
+                                Text {
+                                    text: modelData
+                                    font.pixelSize: comboCrates.height * 0.7
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    anchors.fill: parent
+                                    color: (index === comboCrates.currentIndex) ? "white":"black"
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        comboCrates.currentIndex = index
+                                        comboCrates.popup.close()
+                                    }
+                                }
+                            }
+            }
+        }
+
+        Item{
             id: itemTemperature
             anchors.top: parent.top
             anchors.right: parent.right
             height: parent.height / 2
-            width: parent.width / 3
+            width: parent.width / 4
             Image {
                 id: imgTemperature
                 anchors.left: parent.left
@@ -127,7 +195,7 @@ Rectangle{
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             height: parent.height / 2
-            width: parent.width / 3
+            width: parent.width / 4
             Image {
                 id: imgClock
                 anchors.left: parent.left
@@ -296,7 +364,9 @@ Rectangle{
                     // if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
                     if(listProducts.indexSelected >= 0){
                         if(parseFloat(setpointWeight.text) > 0){
-                            root.start(root.index, listProducts.nameSelected, parseFloat(setpointWeight.text) )
+                            root.start(root.index,
+                                       listProducts.nameSelected,
+                                       parseFloat(setpointWeight.text) - ProcessModel.weightCart - ProcessModel.weightCrate * parseInt(comboCrates.currentIndex+1) )
                             root.visible = false
                         } else {
                             setpointWeight.setFocus()

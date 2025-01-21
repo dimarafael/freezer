@@ -16,6 +16,9 @@ ProcessModel::ProcessModel(QObject *parent)
     m_timerCalculateProcess->setInterval(10000);
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
+
+    setWeightCrate(1);
+    setWeightCart(1);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -200,3 +203,29 @@ void ProcessModel::setMinutesRequired(int newMinutesRequired)
     emit minutesRequiredChanged();
 }
 
+
+float ProcessModel::weightCrate() const
+{
+    return m_weightCrate;
+}
+
+void ProcessModel::setWeightCrate(float newWeightCrate)
+{
+    if (qFuzzyCompare(m_weightCrate, newWeightCrate))
+        return;
+    m_weightCrate = newWeightCrate;
+    emit weightCrateChanged();
+}
+
+float ProcessModel::weightCart() const
+{
+    return m_weightCart;
+}
+
+void ProcessModel::setWeightCart(float newWeightCart)
+{
+    if (qFuzzyCompare(m_weightCart, newWeightCart))
+        return;
+    m_weightCart = newWeightCart;
+    emit weightCartChanged();
+}

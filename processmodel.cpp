@@ -94,7 +94,7 @@ void ProcessModel::stopProcess(int index)
     emit addDataToDB(index, false, "", 0, 0);
 }
 
-void ProcessModel::startProcess(int index, QString productName)
+void ProcessModel::startProcess(int index, QString productName, float weight)
 {
     beginResetModel();
     m_processList[index].setState(1);
@@ -109,7 +109,7 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
     writeToSettings();
-    emit addDataToDB(index, true, productName,temperature(), 0);
+    emit addDataToDB(index, true, productName,temperature(), weight);
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)

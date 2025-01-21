@@ -12,11 +12,8 @@ Rectangle {
 
     property real minVal: 0
     property real maxVal: 100
-    property real value;
+    property alias text: txtFld.text
     property string units: ""
-    signal setValue(real value);
-
-    property bool dummy: false // to force update text in text field
 
     Rectangle{
         id: tooltip
@@ -49,23 +46,19 @@ Rectangle {
         id: txtFld
         width: parent.width
         height: parent.height
-        validator: IntValidator{bottom: root.minVal; top: root.maxVal;}
+        validator: DoubleValidator {bottom: root.minVal; top: root.maxVal; decimals: 1}
         inputMethodHints: Qt.ImhDigitsOnly | Qt.ImhNoTextHandles // | hide selection handles
         font.pixelSize: height*0.7
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
         rightPadding: units.width + height * 0.1
 
-        text: root.dummy? root.value : root.value
-
         onAccepted: {
-            setValue(Number(text))
             focus = false
         }
 
         onFocusChanged: {
-            if(!focus) root.dummy = ! root.dummy
-            else txtFld.selectAll()
+            if(focus) txtFld.selectAll()
         }
 
         background: Rectangle {

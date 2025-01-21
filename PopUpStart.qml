@@ -15,7 +15,7 @@ Rectangle{
     property int buttonWidth: 50
     property int fontSize: 30
 
-    signal start(int index, string productName)
+    signal start(int index, string productName, real weight)
 
     function getTextTime(totalMinutes){
         var hours = Math.floor(totalMinutes / 60);
@@ -28,7 +28,10 @@ Rectangle{
     }
 
     onVisibleChanged: {
-        if(visible === true) listProducts.indexSelected = -1
+        if(visible === true) {
+            listProducts.indexSelected = -1
+            setpointWeight.text = 0
+        }
     }
 
     Text{
@@ -43,7 +46,6 @@ Rectangle{
         text: "Start process on place " + (root.index + 1)
     }
 
-    // Calculated required time
     Item{
         id: itemLine2
         anchors.top: txtLine1.bottom
@@ -76,10 +78,9 @@ Rectangle{
                 width: parent.width * 0.7
                 height: root.fontSize * 1.8
 
-                minVal: 0
+                minVal: 1
                 maxVal: 999
                 units: "kg"
-
             }
         }
 
@@ -294,7 +295,7 @@ Rectangle{
                 onClicked: {
                     // if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
                     if(listProducts.indexSelected >= 0){
-                        root.start(root.index, listProducts.nameSelected)
+                        root.start(root.index, listProducts.nameSelected, parseFloat(setpointWeight.text) )
                         root.visible = false
                     }
                 }

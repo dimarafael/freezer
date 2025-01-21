@@ -38,7 +38,7 @@ public:
     void setSensorStatus(int newSensorStatus);
 
     Q_INVOKABLE void stopProcess(int index);
-    Q_INVOKABLE void startProcess(int index, QString productName);
+    Q_INVOKABLE void startProcess(int index, QString productName, float weight);
 
     int minutesRequired() const;
     void setMinutesRequired(int newMinutesRequired);

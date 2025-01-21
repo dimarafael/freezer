@@ -278,8 +278,8 @@ Window {
 
         buttonWidth: window.width / 5
         fontSize: window.fontSize1
-        onStart: (index, productName) => {
-                     ProcessModel.startProcess(index, productName)
+        onStart: (index, productName, weight) => {
+                     ProcessModel.startProcess(index, productName, weight)
                  }
     }
 

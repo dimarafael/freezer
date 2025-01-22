@@ -17,8 +17,8 @@ ProcessModel::ProcessModel(QObject *parent)
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
 
-    setWeightCrate(1);
-    setWeightCart(1);
+    setWeightCrate(std::round(m_settings.value("WeightCrate").toFloat() * 10.0) / 10.0);
+    setWeightCart(std::round(m_settings.value("WeightCart").toFloat() * 10.0) / 10.0);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -215,6 +215,7 @@ void ProcessModel::setWeightCrate(float newWeightCrate)
         return;
     m_weightCrate = newWeightCrate;
     emit weightCrateChanged();
+    m_settings.setValue("WeightCrate", newWeightCrate);
 }
 
 float ProcessModel::weightCart() const
@@ -228,4 +229,5 @@ void ProcessModel::setWeightCart(float newWeightCart)
         return;
     m_weightCart = newWeightCart;
     emit weightCartChanged();
+    m_settings.setValue("WeightCart", newWeightCart);
 }

@@ -30,6 +30,7 @@ qt_add_qml_module(appfreezer
         img/temperature.svg
         img/clock.svg
         img/stack.svg
+        img/settings.svg
     QML_FILES
         Main.qml
         SetpointField.qml
@@ -39,6 +40,7 @@ qt_add_qml_module(appfreezer
         SettingsPanel.qml
         PopUpStop.qml
         PopUpStart.qml
+        PeremetersPanel.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

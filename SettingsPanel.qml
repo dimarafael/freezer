@@ -15,6 +15,7 @@ Item {
     property string nameForDeleteEdit: ""
 
     signal hidePanel()
+    signal showParameters()
 
     function hideAllPopUps(){
         popUpDelete.visible = false
@@ -279,7 +280,7 @@ Item {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    // anchors.topMargin: -(root.fontSize * 0.6)
+                    anchors.topMargin: -(root.fontSize * 0.6)
                     font.pixelSize: root.fontSize * 3
                     verticalAlignment: Text.AlignVCenter
                     color: "white"
@@ -297,6 +298,29 @@ Item {
                     }
                 }
             }
+
+            Image {
+                id: imgSettings
+                anchors{
+                    // centerIn: parent
+                    // margins: window.defMargin
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: height
+                }
+                height: root.height / 9
+                fillMode: Image.PreserveAspectFit
+                source: "img/settings.svg"
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        root.hidePanel()
+                        root.showParameters()
+                    }
+                }
+            }
+
         } // itemOkCancel
 
     } // show content

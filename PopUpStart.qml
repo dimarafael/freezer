@@ -15,7 +15,7 @@ Rectangle{
     property int buttonWidth: 50
     property int fontSize: 30
 
-    signal start(int index, string productName)
+    signal start(int index, string productName, real weight)
 
     function getTextTime(totalMinutes){
         var hours = Math.floor(totalMinutes / 60);
@@ -27,8 +27,23 @@ Rectangle{
         return hours + ":" + minutes
     }
 
+    function getPositionNumber(idx){
+        var line = Math.floor(idx/9);
+        if (line === 0){
+            return "A" + ((idx % 9) + 1)
+        } else if(line === 1){
+            return "B" + ((idx % 9) + 1)
+        } else  {
+            return "1" + (idx % 9)
+        }
+    }
+
     onVisibleChanged: {
-        if(visible === true) listProducts.indexSelected = -1
+        if(visible === true) {
+            listProducts.indexSelected = -1
+            setpointWeight.text = 0
+            comboCrates.currentIndex = 6
+        }
     }
 
     Text{
@@ -40,12 +55,183 @@ Rectangle{
         horizontalAlignment: Text.AlignHCenter
         color: "#416f4c"
         font.pixelSize: root.fontSize * 2
-        text: "Start process on place " + (root.index + 1)
+        text: "Start process on place " + getPositionNumber(root.index) //(root.index + 1)
+    }
+
+    Item{
+        id: itemLine2
+        anchors.top: txtLine1.bottom
+        width: parent.width * 0.9
+        height: parent.height * 0.18
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Item{
+            id: itemWeight
+            anchors.left: parent.left
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width / 3
+
+            Image {
+                id: imgScale
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 3
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/scale.svg"
+            }
+
+            SetpointField{
+                id: setpointWeight
+                anchors.left: imgScale.right
+                anchors.leftMargin: root.fontSize / 3
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width * 0.7
+                height: root.fontSize * 1.8
+
+                minVal: 1
+                maxVal: 999
+                units: "kg"
+            }
+        }
+
+        Item{
+            id: itemCrates
+            anchors.left: itemWeight.right
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width / 3
+
+            Image {
+                id: imgCrates
+                anchors.left: parent.left
+                anchors.leftMargin: root.fontSize / 2
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 3
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/stack.svg"
+            }
+
+            ComboBox{
+                id: comboCrates
+                width: parent.width / 2
+                height: root.fontSize * 1.8
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: imgCrates.right
+                anchors.leftMargin: root.fontSize / 3
+
+                model: [1, 2, 3, 4, 5, 6, 7]
+                currentIndex: 6
+
+                contentItem: Text {
+                                text: comboCrates.currentText
+                                font.pixelSize: root.fontSize
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                anchors.fill: parent
+                            }
+
+                delegate: Item {
+                                width: comboCrates.width
+                                height: comboCrates.height
+
+                                Rectangle{
+                                    anchors.fill: parent
+                                    color: "#3E95F9"
+                                    visible: comboCrates.currentIndex === index
+                                }
+
+                                Text {
+                                    text: modelData
+                                    font.pixelSize: root.fontSize
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    anchors.fill: parent
+                                    color: (index === comboCrates.currentIndex) ? "white":"black"
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        comboCrates.currentIndex = index
+                                        comboCrates.popup.close()
+                                    }
+                                }
+                            }
+            }
+        }
+
+        Item{
+            id: itemTemperature
+            anchors.top: parent.top
+            anchors.right: parent.right
+            height: parent.height / 2
+            width: parent.width / 4
+            Image {
+                id: imgTemperature
+                anchors.left: parent.left
+                anchors.leftMargin: height / 4
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 2
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/temperature.svg"
+            }
+            Text{
+                visible: ProcessModel.sensorStatus === 0
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "black" //"#416f4c"
+                font.pixelSize: root.fontSize
+                text: ProcessModel.temperature.toFixed(1) + " °C"
+            }
+            Text{
+                visible: ProcessModel.sensorStatus > 0
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "red"
+                font.pixelSize: root.fontSize
+                text: "Sensor problem"
+            }
+        }
+
+        Item{
+            id: itemMinutesRequired
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            height: parent.height / 2
+            width: parent.width / 4
+            Image {
+                id: imgClock
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height / 2
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectFit
+                source: "img/clock.svg"
+            }
+
+            Text{
+                anchors.fill: parent
+                anchors.leftMargin: height * 0.7
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                color: "black" // "#416f4c"
+                font.pixelSize: root.fontSize
+                text: getTextTime(ProcessModel.minutesRequired)
+            }
+        }
     }
 
     ListView{
         id: listProducts
-        anchors.top: txtLine1.bottom
+        anchors.top: itemLine2.bottom
         anchors.topMargin: parent.height / 100
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.9
@@ -135,39 +321,11 @@ Rectangle{
         }
     }
 
-    // Calculated required time
-    Item{
-        id: itemLine3
-        anchors.top: listProducts.bottom
-        width: parent.width * 0.9
-        height: parent.height * 0.18
-        anchors.horizontalCenter: parent.horizontalCenter
-        Text{
-            id: txtLine3
-            visible: ProcessModel.sensorStatus === 0
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: "#416f4c"
-            font.pixelSize: popUpStop.fontSize * 2
-            text: ProcessModel.temperature.toFixed(1) + " °C    :    " + getTextTime(ProcessModel.minutesRequired)
-        }
-        Text{
-            id: txtLine3SensorAlarm
-            visible: ProcessModel.sensorStatus > 0
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: "red"
-            font.pixelSize: popUpStop.fontSize * 2
-            text: "Temperature sensor problem"
-        }
-    }
 
     // Buttons Start Stop
     Item{
-        id: itemLine4
-        anchors.top: itemLine3.bottom
+        id: itemLineButtons
+        anchors.top: listProducts.bottom
         width: parent.width * 0.9
         height: parent.height * 0.18
         anchors.horizontalCenter: parent.horizontalCenter
@@ -216,8 +374,14 @@ Rectangle{
                 onClicked: {
                     // if(listProducts.indexSelected >= 0 && ProcessModel.sensorStatus === 0){
                     if(listProducts.indexSelected >= 0){
-                        root.start(root.index, listProducts.nameSelected)
-                        root.visible = false
+                        if(parseFloat(setpointWeight.text) > 0){
+                            root.start(root.index,
+                                       listProducts.nameSelected,
+                                       parseFloat(setpointWeight.text) - ProcessModel.weightCart - ProcessModel.weightCrate * parseInt(comboCrates.currentIndex+1) )
+                            root.visible = false
+                        } else {
+                            setpointWeight.setFocus()
+                        }
                     }
                 }
             }

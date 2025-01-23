@@ -15,6 +15,9 @@ class ProcessModel : public QAbstractListModel
     Q_PROPERTY(float temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged FINAL)
     Q_PROPERTY(int sensorStatus READ sensorStatus WRITE setSensorStatus NOTIFY sensorStatusChanged FINAL)
     Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL)
+    Q_PROPERTY(float weightCrate READ weightCrate WRITE setWeightCrate NOTIFY weightCrateChanged FINAL)
+    Q_PROPERTY(float weightCart READ weightCart WRITE setWeightCart NOTIFY weightCartChanged FINAL)
+
 public:
     enum Role{
         ProductNameRole = Qt::UserRole + 1,
@@ -38,10 +41,16 @@ public:
     void setSensorStatus(int newSensorStatus);
 
     Q_INVOKABLE void stopProcess(int index);
-    Q_INVOKABLE void startProcess(int index, QString productName);
+    Q_INVOKABLE void startProcess(int index, QString productName, float weight);
 
     int minutesRequired() const;
     void setMinutesRequired(int newMinutesRequired);
+
+    float weightCrate() const;
+    void setWeightCrate(float newWeightCrate);
+
+    float weightCart() const;
+    void setWeightCart(float newWeightCart);
 
 public slots:
     void dataReady(float sensorTemperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
@@ -59,6 +68,10 @@ signals:
 
     void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, float weight);
 
+    void weightCrateChanged();
+
+    void weightCartChanged();
+
 private:
     QList<ProcessItem> m_processList;
     float m_temperature;
@@ -71,6 +84,8 @@ private:
     int m_minutesRequired;
     void readFromSettings();
     void writeToSettings();
+    float m_weightCrate;
+    float m_weightCart;
 };
 
 #endif // PROCESSMODEL_H

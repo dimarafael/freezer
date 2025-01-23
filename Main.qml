@@ -239,6 +239,10 @@ Window {
                 window.showSettings = false
                 itemSettings.unlocked = false
             }
+
+            onShowParameters: {
+                popUpParameters.visible = true
+            }
         }
 
     } // Item root content
@@ -251,7 +255,7 @@ Window {
         height: window.height
         color: "gray"
         opacity: 0.7
-        visible: popUpStop.visible | popUpStart.visible
+        visible: popUpStop.visible | popUpStart.visible | popUpParameters.visible
         MouseArea{
             anchors.fill: parent
             onClicked: focus=true
@@ -278,8 +282,8 @@ Window {
 
         buttonWidth: window.width / 5
         fontSize: window.fontSize1
-        onStart: (index, productName) => {
-                     ProcessModel.startProcess(index, productName)
+        onStart: (index, productName, weight) => {
+                     ProcessModel.startProcess(index, productName, weight)
                  }
     }
 
@@ -309,6 +313,28 @@ Window {
         }
     }
 
+    DropShadow {
+        anchors.fill: popUpParameters
+        source: popUpParameters
+        horizontalOffset: window.defMargin / 3
+        verticalOffset: window.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpParameters.visible
+    }
+    PeremetersPanel {
+        id: popUpParameters
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: itemRootContent.top
+        width: parent.width / 2
+        height: parent.height / 2
+        radius: window.defMargin
+        visible: false
+        fontSize: window.fontSize1
+        buttonWidth: window.width / 5
+
+    }
 
 
     InputPanel {

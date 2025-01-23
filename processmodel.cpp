@@ -16,6 +16,9 @@ ProcessModel::ProcessModel(QObject *parent)
     m_timerCalculateProcess->setInterval(10000);
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
+
+    setWeightCrate(std::round(m_settings.value("WeightCrate").toFloat() * 10.0) / 10.0);
+    setWeightCart(std::round(m_settings.value("WeightCart").toFloat() * 10.0) / 10.0);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -94,7 +97,7 @@ void ProcessModel::stopProcess(int index)
     emit addDataToDB(index, false, "", 0, 0);
 }
 
-void ProcessModel::startProcess(int index, QString productName)
+void ProcessModel::startProcess(int index, QString productName, float weight)
 {
     beginResetModel();
     m_processList[index].setState(1);
@@ -109,7 +112,7 @@ void ProcessModel::startProcess(int index, QString productName)
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     endResetModel();
     writeToSettings();
-    emit addDataToDB(index, true, productName,temperature(), 0);
+    emit addDataToDB(index, true, productName,temperature(), weight);
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)
@@ -200,3 +203,31 @@ void ProcessModel::setMinutesRequired(int newMinutesRequired)
     emit minutesRequiredChanged();
 }
 
+
+float ProcessModel::weightCrate() const
+{
+    return m_weightCrate;
+}
+
+void ProcessModel::setWeightCrate(float newWeightCrate)
+{
+    if (qFuzzyCompare(m_weightCrate, newWeightCrate))
+        return;
+    m_weightCrate = newWeightCrate;
+    emit weightCrateChanged();
+    m_settings.setValue("WeightCrate", newWeightCrate);
+}
+
+float ProcessModel::weightCart() const
+{
+    return m_weightCart;
+}
+
+void ProcessModel::setWeightCart(float newWeightCart)
+{
+    if (qFuzzyCompare(m_weightCart, newWeightCart))
+        return;
+    m_weightCart = newWeightCart;
+    emit weightCartChanged();
+    m_settings.setValue("WeightCart", newWeightCart);
+}

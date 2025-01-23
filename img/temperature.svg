@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="399.99982"
+   height="566.66669"
+   viewBox="0 0 11.999995 17.000001"
+   fill="none"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="temperature.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs18" />
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false" />
+  <path
+     d="m 5.5000005,9.8368002 h -0.5 c 0,0.1929998 0.1111,0.3687998 0.2855,0.4515998 z m -3,0 0.2145,0.4515998 c 0.1744,-0.0828 0.2855,-0.2586 0.2855,-0.4515998 z m 2.5,-7.8368 v 7.8368 h 1 v -7.8368 z m -1,-1 c 0.5523,0 1,0.44772 1,1 h 1 c 0,-1.10456996 -0.8954,-1.99999996158142 -2,-1.99999996158142 z m -1,1 c 0,-0.55228 0.4477,-1 1,-1 V 2.3841858e-7 c -1.1046,0 -2,0.89543000158142 -2,1.99999996158142 z m 0,7.8368 v -7.8368 h -1 v 7.8368 z m -2,3.1631998 c 0,-1.196 0.69984,-2.2295 1.7145,-2.7116 l -0.429,-0.9031998 C 0.93522048,10.0266 4.7683716e-7,11.4036 4.7683716e-7,13 Z m 3,3 c -1.6569,0 -3,-1.3431 -3,-3 H 4.7683716e-7 c 0,2.2091 1.79086002316284,4 4.00000002316284,4 z m 3,-3 c 0,1.6569 -1.3431,3 -3,3 v 1 c 2.2091,0 4,-1.7909 4,-4 z m -1.7145,-2.7116 c 1.0147,0.4821 1.7145,1.5156 1.7145,2.7116 h 1 c 0,-1.5964 -0.9352,-2.9734 -2.2855,-3.6147998 z"
+     fill="#33363F"
+     id="path2"
+     style="fill:#000000;fill-opacity:1" />
+  <path
+     d="m 4.0000005,13.5 v -2"
+     stroke="#33363F"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path4"
+     style="stroke:#000000;stroke-opacity:1" />
+  <path
+     d="m 7.5000005,8.5000002 h 2"
+     stroke="#33363F"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path6"
+     style="stroke:#000000;stroke-opacity:1" />
+  <path
+     d="m 7.5000005,6.5000002 h 2"
+     stroke="#33363F"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path8"
+     style="stroke:#000000;stroke-opacity:1" />
+  <path
+     d="m 7.5000005,4.5000002 h 2"
+     stroke="#33363F"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path10"
+     style="stroke:#000000;stroke-opacity:1" />
+  <path
+     d="M 7.5000005,2.5000002 H 11.5"
+     stroke="#33363F"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path12"
+     style="stroke:#000000;stroke-width:0.99999;stroke-dasharray:none;stroke-opacity:1" />
+</svg>

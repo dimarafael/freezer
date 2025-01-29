@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+
     QQmlApplicationEngine engine;
 
     ProcessModel *processModel = new ProcessModel(&app);

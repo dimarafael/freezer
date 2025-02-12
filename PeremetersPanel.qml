@@ -16,6 +16,7 @@ Rectangle{
         if(visible === true) {
             setpointCartWeight.text = Math.round(ProcessModel.weightCart * 10) / 10
             setpointCrateWeight.text = Math.round(ProcessModel.weightCrate * 10) / 10
+            setpointSensorCorrection.text = Math.round(ProcessModel.sensorCorrection * 10) / 10
         }
     }
 
@@ -31,10 +32,20 @@ Rectangle{
         text: "Parameters"
     }
 
+    Rectangle{
+        id: rectLine1
+        width: parent.width * 0.9
+        height: 1
+        anchors.bottom: txtLine1.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "lightgrey"
+        border.width: 0
+    }
+
     Item{
         id: itemLine2Left
         width: parent.width / 2
-        height: parent.height / 2
+        height: parent.height / 4
         anchors.top: txtLine1.bottom
         anchors.left: parent.left
 
@@ -65,7 +76,7 @@ Rectangle{
     Item{
         id: itemLine2Right
         width: parent.width / 2
-        height: parent.height / 2
+        height: parent.height / 4
         anchors.top: txtLine1.bottom
         anchors.right: parent.right
 
@@ -94,11 +105,63 @@ Rectangle{
 
     }
 
+    Rectangle{
+        id: rectLine2
+        width: parent.width * 0.9
+        height: 1
+        anchors.bottom: itemLine2Left.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "lightgrey"
+        border.width: 0
+    }
+
+    Item{
+        id: itemLine3Left
+        width: parent.width / 2
+        height: parent.height / 4
+        anchors.top: itemLine2Left.bottom
+        anchors.left: parent.left
+
+        Text{
+            id: txtLine3Left
+            width: parent.width
+            height: parent.height / 3
+            anchors.top: parent.top
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            color: "black"
+            font.pixelSize: root.fontSize
+            text: "Sensor correction"
+        }
+
+        SetpointField{
+            id: setpointSensorCorrection
+            anchors.top: txtLine3Left.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width / 2
+            height: root.fontSize * 1.8
+            minVal: -5
+            maxVal: +5
+            units: "°C"
+            inputMethodHints: Qt.ImhFormattedNumbersOnly | Qt.ImhNoTextHandles
+        }
+    }
+
+    Rectangle{
+        id: rectLine3
+        width: parent.width * 0.9
+        height: 1
+        anchors.bottom: itemLine3Left.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "lightgrey"
+        border.width: 0
+    }
+
     Item {
-        id: itemLine3
+        id: itemLineButtons
         height: parent.height / 4
         width: parent.width * 0.85
-        anchors.top: itemLine2Left.bottom
+        anchors.top: itemLine3Left.bottom
         anchors.horizontalCenter: parent.horizontalCenter
 
         Rectangle{
@@ -146,6 +209,7 @@ Rectangle{
                 onClicked: {
                     ProcessModel.weightCart = parseFloat(setpointCartWeight.text)
                     ProcessModel.weightCrate = parseFloat(setpointCrateWeight.text)
+                    ProcessModel.sensorCorrection = parseFloat(setpointSensorCorrection.text)
                     root.visible = false
                 }
             }

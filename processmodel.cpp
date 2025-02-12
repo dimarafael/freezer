@@ -118,7 +118,7 @@ void ProcessModel::startProcess(int index, QString productName, float weight)
 
 void ProcessModel::dataReady(float sensorTemperature, int status)
 {
-    setTemperature(sensorTemperature);
+    setTemperature(sensorTemperature + m_sensorCorrection);
     setSensorStatus(status);
     setMinutesRequired(120); // change to function !!!!!!!!!!!!!!!!!!!!
 }

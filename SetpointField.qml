@@ -15,6 +15,8 @@ Rectangle {
     property alias text: txtFld.text
     property string units: ""
 
+    property alias inputMethodHints: txtFld.inputMethodHints
+
     function setFocus(){
         txtFld.focus = true
     }

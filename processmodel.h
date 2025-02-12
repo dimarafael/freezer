@@ -17,6 +17,7 @@ class ProcessModel : public QAbstractListModel
     Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL)
     Q_PROPERTY(float weightCrate READ weightCrate WRITE setWeightCrate NOTIFY weightCrateChanged FINAL)
     Q_PROPERTY(float weightCart READ weightCart WRITE setWeightCart NOTIFY weightCartChanged FINAL)
+    Q_PROPERTY(float sensorCorrection READ sensorCorrection WRITE setSensorCorrection NOTIFY sensorCorrectionChanged FINAL)
 
 public:
     enum Role{
@@ -52,6 +53,9 @@ public:
     float weightCart() const;
     void setWeightCart(float newWeightCart);
 
+    float sensorCorrection() const;
+    void setSensorCorrection(float newSensorCorrection);
+
 public slots:
     void dataReady(float sensorTemperature, int status); // 0 - ok, 1 - module offline, 2 - sensor not connected
 
@@ -72,6 +76,8 @@ signals:
 
     void weightCartChanged();
 
+    void sensorCorrectionChanged();
+
 private:
     QList<ProcessItem> m_processList;
     float m_temperature;
@@ -86,6 +92,7 @@ private:
     void writeToSettings();
     float m_weightCrate;
     float m_weightCart;
+    float m_sensorCorrection;
 };
 
 #endif // PROCESSMODEL_H

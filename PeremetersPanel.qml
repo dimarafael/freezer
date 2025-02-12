@@ -16,6 +16,7 @@ Rectangle{
         if(visible === true) {
             setpointCartWeight.text = Math.round(ProcessModel.weightCart * 10) / 10
             setpointCrateWeight.text = Math.round(ProcessModel.weightCrate * 10) / 10
+            setpointSensorCorrection.text = Math.round(ProcessModel.sensorCorrection * 10) / 10
         }
     }
 
@@ -208,6 +209,7 @@ Rectangle{
                 onClicked: {
                     ProcessModel.weightCart = parseFloat(setpointCartWeight.text)
                     ProcessModel.weightCrate = parseFloat(setpointCrateWeight.text)
+                    ProcessModel.sensorCorrection = parseFloat(setpointSensorCorrection.text)
                     root.visible = false
                 }
             }

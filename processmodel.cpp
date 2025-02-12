@@ -17,8 +17,9 @@ ProcessModel::ProcessModel(QObject *parent)
     connect(m_timerCalculateProcess, &QTimer::timeout, this, &ProcessModel::calculateProcess);
     m_timerCalculateProcess->start();
 
-    setWeightCrate(std::round(m_settings.value("WeightCrate").toFloat() * 10.0) / 10.0);
-    setWeightCart(std::round(m_settings.value("WeightCart").toFloat() * 10.0) / 10.0);
+    setWeightCrate(std::round(m_settings.value("WeightCrate", 0).toFloat() * 10.0) / 10.0);
+    setWeightCart(std::round(m_settings.value("WeightCart", 0).toFloat() * 10.0) / 10.0);
+    setSensorCorrection(std::round(m_settings.value("SensorCorrection", 0).toFloat() * 10.0) / 10.0);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -230,4 +231,18 @@ void ProcessModel::setWeightCart(float newWeightCart)
     m_weightCart = newWeightCart;
     emit weightCartChanged();
     m_settings.setValue("WeightCart", newWeightCart);
+}
+
+float ProcessModel::sensorCorrection() const
+{
+    return m_sensorCorrection;
+}
+
+void ProcessModel::setSensorCorrection(float newSensorCorrection)
+{
+    if (qFuzzyCompare(m_sensorCorrection, newSensorCorrection))
+        return;
+    m_sensorCorrection = newSensorCorrection;
+    emit sensorCorrectionChanged();
+    m_settings.setValue("SensorCorrection", newSensorCorrection);
 }

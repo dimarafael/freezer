@@ -9,6 +9,7 @@ ProcessItem::ProcessItem(){
     m_minutesCurrent = 0;
     m_startTemperature = 0;
     m_startDateTime = QDateTime::currentDateTime();
+    m_weight = 0;
 }
 
 QString ProcessItem::productName() const
@@ -89,5 +90,15 @@ float ProcessItem::startTemperature() const
 void ProcessItem::setStartTemperature(float newStartTemperature)
 {
     m_startTemperature = newStartTemperature;
+}
+
+float ProcessItem::weight() const
+{
+    return m_weight;
+}
+
+void ProcessItem::setWeight(float newWeight)
+{
+    m_weight = newWeight;
 }
 

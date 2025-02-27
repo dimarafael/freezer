@@ -13,6 +13,7 @@ Item{
     property color colorGrad2 : "#3E95F9"
     property real value: 0
     property string posNum: ""
+    property real weight: 0
     
     Rectangle{
         id: rectBase
@@ -71,10 +72,33 @@ Item{
             text: temperature.toFixed(1) + " °C"
         }
     }
+
+    Item {
+        id: itemWeight
+        height: (root.height - radialBar.height ) / 3
+        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: itemProductName.top
+        anchors.leftMargin: root.defMargin
+        anchors.rightMargin: root.defMargin
+        Text {
+            id: textWeight
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height
+            anchors.left: parent.left
+            anchors.right: parent.right
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: root.height / 10
+            color: root.textColor
+            text: Math.round(root.weight) + " kg"
+        }
+    }
     
     Item {
         id: itemProductName
-        height: (root.height - radialBar.height ) / 2
+        height: (root.height - radialBar.height ) / 3
         // width: parent.width
         anchors.bottom: radialBar.top
         anchors.left: parent.left

@@ -34,6 +34,9 @@ public:
     float startTemperature() const;
     void setStartTemperature(float newStartTemperature);
 
+    float weight() const;
+    void setWeight(float newWeight);
+
 private:
     QString m_productName;
     int m_state; //0 empty, 1 cooling, 2 ready, 3 overcooled
@@ -43,6 +46,7 @@ private:
     int m_minutesCurrent;
     QDateTime m_startDateTime;
     float m_startTemperature;
+    float m_weight;
 };
 
 #endif // PROCESSITEM_H

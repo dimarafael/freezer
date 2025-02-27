@@ -44,6 +44,8 @@ QVariant ProcessModel::data(const QModelIndex &index, int role) const
             return processItem.minutesMax();
         case MinutesCurrentRole:
             return processItem.minutesCurrent();
+        case WeightRole:
+            return processItem.weight();
         default:
             return {};
         }
@@ -60,6 +62,7 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
     names[MinutesMinRole] = "minutesMin";
     names[MinutesMaxRole] = "minutesMax";
     names[MinutesCurrentRole] = "minutesCurrent";
+    names[WeightRole] = "productWeight";
     return names;
 }
 
@@ -111,6 +114,7 @@ void ProcessModel::startProcess(int index, QString productName, float weight)
     m_processList[index].setCurrentTemperature(temperature());
     m_processList[index].setStartTemperature(temperature());
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
+    m_processList[index].setWeight(weight);
     endResetModel();
     writeToSettings();
     emit addDataToDB(index, true, productName,temperature(), weight);
@@ -172,6 +176,7 @@ void ProcessModel::readFromSettings()
         m_processList[i].setMinutesMax(m_settings.value("minutesMax").toInt());
         m_processList[i].setStartDateTime(QDateTime::fromSecsSinceEpoch(m_settings.value("startDateTime").toLongLong()));
         m_processList[i].setStartTemperature(m_settings.value("startTemperature").toFloat());
+        m_processList[i].setWeight(m_settings.value("weight").toFloat());
     }
     m_settings.endArray();
 }
@@ -187,6 +192,7 @@ void ProcessModel::writeToSettings()
         m_settings.setValue("minutesMax", m_processList.at(i).minutesMax());
         m_settings.setValue("startDateTime", m_processList.at(i).startDateTime().toSecsSinceEpoch());
         m_settings.setValue("startTemperature", m_processList.at(i).startTemperature());
+        m_settings.setValue("weight", m_processList.at(i).weight());
     }
     m_settings.endArray();
 }

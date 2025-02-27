@@ -97,6 +97,7 @@ Item{
         colorGrad2 : "#3E95F9"
         value: (minutesCurrent / minutesMin) * 100
         posNum: root.getPositionNumber(index)
+        weight: productWeight
     }
 
     StatusCard {
@@ -111,6 +112,7 @@ Item{
         colorGrad2 : "#3E9149"
         value: ((minutesCurrent - minutesMin) / (minutesMax - minutesMin)) * 100
         posNum: root.getPositionNumber(index)
+        weight: productWeight
     }
 
     StatusCard {
@@ -125,5 +127,6 @@ Item{
         colorGrad2 : "#EE2F37"
         value: 100
         posNum: root.getPositionNumber(index)
+        weight: productWeight
     }
 }

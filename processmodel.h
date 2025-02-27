@@ -26,7 +26,8 @@ public:
         TemperatureRole = Qt::UserRole + 3,
         MinutesMinRole = Qt::UserRole + 4,
         MinutesMaxRole = Qt::UserRole + 5,
-        MinutesCurrentRole = Qt::UserRole + 6
+        MinutesCurrentRole = Qt::UserRole + 6,
+        WeightRole = Qt::UserRole + 7
     };
     explicit ProcessModel(QObject *parent = nullptr);
 

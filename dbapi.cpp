@@ -11,8 +11,8 @@ void DbApi::run()
 
 void DbApi::postData(int place, bool occupied, const QString &name, float startTemperature, float weight)
 {
-    // QUrl url("http://10.0.10.64:1880/vedogaz/freezer/db/add");
-    QUrl url("http://10.0.10.64:1880/vedogaz/freezer/db/add_test");
+    QUrl url("http://10.0.10.64:1880/vedogaz/freezer/db/add");
+    // QUrl url("http://10.0.10.64:1880/vedogaz/freezer/db/add_test");
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 

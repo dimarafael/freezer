@@ -5,10 +5,10 @@ import com.kometa.ProcessModel
 
 Window {
     id: window
-    width: Screen.width // 2 // 1024
-    height: Screen.height // 2 //768
+    width: Screen.width / 2 // 1024
+    height: Screen.height / 2 //768
     visible: true
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
+    // flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint// | Qt.Dialog
     title: qsTr("Freezer")
 
     readonly property int defMargin: window.height * 0.01
@@ -58,7 +58,7 @@ Window {
             clip: true
             anchors.top: itemRootContent.top
             width: itemRootContent.width
-            height: itemRootContent.height / 8.5
+            height: itemRootContent.height / 10
             Rectangle{
                 id: topMenuBckground
                 anchors.top: parent.top
@@ -177,7 +177,7 @@ Window {
                 Image {
                     id: imgGear
                     anchors{
-                        centerIn: parent
+                        fill: parent
                         margins: window.defMargin
                     }
                     fillMode: Image.PreserveAspectFit
@@ -186,6 +186,18 @@ Window {
 
 
             }
+        }
+
+        Rectangle{
+            id: horisontalLine
+            anchors{
+                left: parent.left
+                right: parent.right
+                top: parent.top
+                topMargin: (parent.height / 10) + ((parent.height - (parent.height / 10)) / 4) * 3
+            }
+            height: 3
+            color: "#416f4c"
         }
 
         GridView{
@@ -199,16 +211,21 @@ Window {
                 topMargin: window.defMargin / 2
             }
             cellWidth: width / 9
-            cellHeight: height / 3
+            cellHeight: (height / 4) * 0.98
             interactive: false
             verticalLayoutDirection: GridView.TopToBottom
 
             model: ProcessModel
             delegate: ProcessItemDelegate {
                 width: gridViev.cellWidth
-                height: gridViev.cellHeight
+                // height: gridViev.cellHeight
+                height: index > 26 ? gridViev.cellHeight * 1.08 : gridViev.cellHeight
                 defMargin: window.defMargin
                 shadowColor: window.shadowColor
+                visible: {
+                    if(index > 23 && index < 27) return false
+                    else return true
+                }
 
                 onStopProcess: index => {
                     popUpStop.index = index

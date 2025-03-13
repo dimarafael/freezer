@@ -7,7 +7,8 @@
 #include <QSettings>
 #include "processitem.h"
 
-#define PLACES_QTY 24
+// #define PLACES_QTY 24
+#define PLACES_QTY 36
 
 class ProcessModel : public QAbstractListModel
 {

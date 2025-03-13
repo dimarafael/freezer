@@ -80,6 +80,7 @@ Item{
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: itemProductName.top
+        anchors.bottomMargin: -root.defMargin
         anchors.leftMargin: root.defMargin
         anchors.rightMargin: root.defMargin
         Text {

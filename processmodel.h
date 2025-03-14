@@ -9,13 +9,15 @@
 
 // #define PLACES_QTY 24
 #define PLACES_QTY 36
+#define REQUIRED_MINUTES_MAIN 120
+#define REQUIRED_MINUTES_KIS 30
 
 class ProcessModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(float temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged FINAL)
     Q_PROPERTY(int sensorStatus READ sensorStatus WRITE setSensorStatus NOTIFY sensorStatusChanged FINAL)
-    Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL)
+    Q_PROPERTY(int minutesRequired READ minutesRequired WRITE setMinutesRequired NOTIFY minutesRequiredChanged FINAL) // not in use
     Q_PROPERTY(float weightCrate READ weightCrate WRITE setWeightCrate NOTIFY weightCrateChanged FINAL)
     Q_PROPERTY(float weightCart READ weightCart WRITE setWeightCart NOTIFY weightCartChanged FINAL)
     Q_PROPERTY(float sensorCorrection READ sensorCorrection WRITE setSensorCorrection NOTIFY sensorCorrectionChanged FINAL)
@@ -72,7 +74,7 @@ signals:
 
     void dbConnectedChanged();
 
-    void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, float weight);
+    void addDataToDB(int place, bool occupied, const QString &name, float startTemperature, float weight, int state);
 
     void weightCrateChanged();
 
@@ -87,7 +89,8 @@ private:
     QTimer *m_timerCalculateProcess;
     QSettings m_settings;
 
-    int calculateRequiredMinutes(float startTemperature, float targetTemperature);
+    int calculateRequiredMinutesMin(int index);
+    int calculateRequiredMinutesMax(int index);
     float calculateExpextedTemperature(float startTemperature, int minutes);
     int m_minutesRequired;
     void readFromSettings();

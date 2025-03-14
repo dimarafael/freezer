@@ -19,7 +19,7 @@ public:
 
 public slots:
     void run(); // for starting thread
-    void postData(int place, bool occupied, const QString &name, float startTemperature, float weight);
+    void postData(int place, bool occupied, const QString &name, float startTemperature, float weight, int state);
 
 signals:
 

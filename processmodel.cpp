@@ -98,7 +98,7 @@ void ProcessModel::stopProcess(int index)
     m_processList[index].setState(0);
     endResetModel();
     writeToSettings();
-    emit addDataToDB(index, false, "", 0, 0);
+    emit addDataToDB(index, false, "", 0, 0, 0);
 }
 
 void ProcessModel::startProcess(int index, QString productName, float weight)
@@ -107,24 +107,21 @@ void ProcessModel::startProcess(int index, QString productName, float weight)
     m_processList[index].setState(1);
     m_processList[index].setProductName(productName);
     m_processList[index].setMinutesCurrent(0);
-    // m_processList[index].setMinutesMin(calculateRequiredMinutes(temperature(), 1.5));
-    // m_processList[index].setMinutesMax(calculateRequiredMinutes(temperature(), 0.5));
-    m_processList[index].setMinutesMin(120); // change to function !!!!!!!!!!!!!!!!!!!!
-    m_processList[index].setMinutesMax(240); // change to function !!!!!!!!!!!!!!!!!!!!
+    m_processList[index].setMinutesMin(calculateRequiredMinutesMin(index));
+    m_processList[index].setMinutesMax(calculateRequiredMinutesMax(index));
     m_processList[index].setCurrentTemperature(temperature());
     m_processList[index].setStartTemperature(temperature());
     m_processList[index].setStartDateTime(QDateTime::currentDateTime());
     m_processList[index].setWeight(weight);
     endResetModel();
     writeToSettings();
-    emit addDataToDB(index, true, productName,temperature(), weight);
+    emit addDataToDB(index, true, productName,temperature(), weight, 1);
 }
 
 void ProcessModel::dataReady(float sensorTemperature, int status)
 {
     setTemperature(sensorTemperature + m_sensorCorrection);
     setSensorStatus(status);
-    setMinutesRequired(120); // change to function !!!!!!!!!!!!!!!!!!!!
 }
 
 void ProcessModel::calculateProcess()
@@ -133,6 +130,7 @@ void ProcessModel::calculateProcess()
     beginResetModel();
     for(int i =0; i < PLACES_QTY; i++){
         int minutesInProcess = 0;
+        int currentState = m_processList[i].state();
         if (m_processList[i].state() > 0){
             minutesInProcess = std::chrono::duration_cast<std::chrono::minutes>(QDateTime::currentDateTime() - m_processList[i].startDateTime()).count();
             // qDebug() << "Place: " << i << " minutesInProcess=" << minutesInProcess;
@@ -149,15 +147,30 @@ void ProcessModel::calculateProcess()
                 // status cooling
                 m_processList[i].setState(1);
             }
-        }
+
+            if(currentState != m_processList[i].state()){
+                emit addDataToDB(i,                                 // place
+                                true,                               // occupied
+                                m_processList[i].productName(),     // name
+                                m_processList[i].startTemperature(),// startTemperature
+                                m_processList[i].weight(),          // weight
+                                m_processList[i].state()            // state
+                                );
+            }
+        }    
     }
     // qDebug() << "-------------------";
     endResetModel();
 }
 
-int ProcessModel::calculateRequiredMinutes(float startTemperature, float targetTemperature)
+int ProcessModel::calculateRequiredMinutesMin(int index)
 {
-    return 7 - floor(targetTemperature * 2); // ?????????????????????????????
+    return REQUIRED_MINUTES_MAIN;
+}
+
+int ProcessModel::calculateRequiredMinutesMax(int index)
+{
+    return index > 26 ? (REQUIRED_MINUTES_MAIN + REQUIRED_MINUTES_KIS) : (REQUIRED_MINUTES_MAIN * 2);
 }
 
 float ProcessModel::calculateExpextedTemperature(float startTemperature, int minutes)
